@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react"
-// import axios from "axios";
+import axios from "axios";
 
 
 const SignUp = () => {
@@ -32,16 +32,16 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
-        setStatus("");
+
         console.log(formData);
 
         
 
-          
-        
 
-        
+
+
+
+
 
     }
 
@@ -52,56 +52,54 @@ const SignUp = () => {
         <>
             <div className="container mx-auto flex justify-center items-center h-screen w-screen">
 
-                    <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
-                        <h1 className="text-center p-2 text-5xl font-bold m-6">Signup</h1>
+                <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
+                    <h1 className="text-center p-2 text-5xl font-bold m-6">Signup</h1>
 
-                        <form onSubmit={handleSubmit} className=" w-3/6 p-10">
-                            {error && <p className="">{error}</p>}
-                            {status && <p className="">{status}</p>}
+                    <form onSubmit={handleSubmit} className=" w-3/6 p-10">
 
-                            <div className={inputDiv}>
-                                <label className={inputLabel} htmlFor="form1Example1">
-                                    Name
-                                </label>
-                                <input type="text" id="form1Example1" className={inputCss}
-                                    placeholder="Full Name" name="name"
-                                    onChange={handleChange}
-                                    value={formData.name} required />
+                        <div className={inputDiv}>
+                            <label className={inputLabel} htmlFor="form1Example1">
+                                Name
+                            </label>
+                            <input type="text" id="form1Example1" className={inputCss}
+                                placeholder="Full Name" name="name"
+                                onChange={handleChange}
+                                value={formData.name} required />
+                        </div>
+                        <div className={inputDiv}>
+                            <label className={inputLabel} htmlFor="form1Example1">
+                                Email
+                            </label>
+                            <input type="email" id="form1Example1" className={inputCss}
+                                placeholder="Email" name="email"
+                                onChange={handleChange}
+                                value={formData.email} required />
+                        </div>
+                        <div className={inputDiv}>
+                            <label className={inputLabel} htmlFor="form1Example2">
+                                Password
+                            </label>
+                            <input type="password" id="form1Example2" className={inputCss} placeholder="password"
+                                name="password" onChange={handleChange}
+                                value={formData.password} required />
+                        </div>
+                        <div className=" mb-4">
+                            <div className={inputLabel}>
+                                <span className={inputLabel} >Already have Account?</span>
+                                <a className="hover:text-blue-500" href="/verify">LogIn</a>
                             </div>
-                            <div className={inputDiv}>
-                                <label className={inputLabel} htmlFor="form1Example1">
-                                    Email
-                                </label>
-                                <input type="email" id="form1Example1" className={inputCss}
-                                    placeholder="Email" name="email"
-                                    onChange={handleChange}
-                                    value={formData.email} required />
-                            </div>
-                            <div className={inputDiv}>
-                                <label className={inputLabel} htmlFor="form1Example2">
-                                    Password
-                                </label>
-                                <input type="password" id="form1Example2" className={inputCss} placeholder="password"
-                                    name="password" onChange={handleChange}
-                                    value={formData.password} required />
-                            </div>
-                            <div className=" mb-4">
-                                <div className={inputLabel}>
-                                    <span className={inputLabel} >Already have Account?</span>
-                                    <a className="hover:text-blue-500" href="/verify">LogIn</a>
-                                </div>
-                            </div>
-                            <div className="text-center">
-                                <button
-                                    type="submit"
-                                    className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
-                                >
-                                    Sign Up
-                                </button>
-                            </div>
-                        </form>
+                        </div>
+                        <div className="text-center">
+                            <button
+                                type="submit"
+                                className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
+                            >
+                                Sign Up
+                            </button>
+                        </div>
+                    </form>
 
-                    </div>
+                </div>
 
 
             </div>
