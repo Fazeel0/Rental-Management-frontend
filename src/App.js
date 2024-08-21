@@ -1,6 +1,7 @@
 
 import './App.css';
-import RentalForm from './components/Forms/RentalForm';
+import Branch from './components/Forms/Branch';
+import RentalForm from './components/Forms/Rental';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 
@@ -9,7 +10,8 @@ function App() {
     <>
     {/* <Login/> */}
     {/* <SignUp/> */}
-    <RentalForm/>
+    {/* <RentalForm/> */}
+    <Branch/>
     </>
   );
 }
