@@ -1,6 +1,6 @@
 
 import './App.css';
-import RentalForm from './components/RentalForm';
+import RentalForm from './components/Forms/RentalForm';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 

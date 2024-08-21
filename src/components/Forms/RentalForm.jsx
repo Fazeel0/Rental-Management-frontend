@@ -58,7 +58,7 @@ const RentalForm = () => {
                     <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary   w-full h-3/4 flex flex-col justify-center items-center" id="login-box">
                         <h1 className="text-center p-2 text-5xl font-bold m-6">Rent Product</h1>
 
-                        <form onSubmit={handleSubmit} className="bg-blue-300 w-5/6 p-10">
+                        <form onSubmit={handleSubmit} className=" w-5/6 p-10">
                             {error && <p className="">{error}</p>}
                             {status && <p className="">{status}</p>}
 
@@ -138,7 +138,7 @@ const RentalForm = () => {
                             <div className="text-center">
                                 <button
                                     type="submit"
-                                    className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
+                                    className="bg-blue-400 text-white hover:text-blue-400 w-1/3 py-2 rounded-md bottom-2 hover:bg-slate-200"
                                 >
                                     Rent Product
                                 </button>
