@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ErrorPage from './pages/ErrorPage';
+import ProductDetails from './pages/ProductDetails';
 
 
 function App() {
@@ -28,20 +29,22 @@ function App() {
 
 
       <BrowserRouter>
+
         <Navbar />
 
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='*' element={<ErrorPage />} />
-          <Route path='/createBranch' element={<Branch/>}/>
-          <Route path='/updateBranch' element={<BranchUpdate/>}/>
-          <Route path='/createCustomer' element={<Customer/>}/>
-          <Route path='/updateCustomer' element={<CustomerUpdate/>}/>
-          <Route path='/rentProduct' element={<Rental/>}/>
+          <Route path='/createBranch' element={<Branch />} />
+          <Route path='/updateBranch' element={<BranchUpdate />} />
+          <Route path='/createCustomer' element={<Customer />} />
+          <Route path='/updateCustomer' element={<CustomerUpdate />} />
+          <Route path='/rentProduct' element={<Rental />} />
         </Routes>
-      </BrowserRouter>
 
+
+      </BrowserRouter>
 
     </>
   );
