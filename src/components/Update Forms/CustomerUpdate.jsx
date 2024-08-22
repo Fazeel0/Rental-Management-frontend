@@ -1,5 +1,7 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react"
+import { toast } from "react-toastify";
 // import axios from "axios";
 
 
@@ -15,9 +17,6 @@ const CustomerUpdate = () => {
         address: "",
     })
 
-    const [error, setError] = useState("");
-    const [status, setStatus] = useState("");
-
 
     //whenever user types in input fields, handles ==>
     const handleChange = (e) => {
@@ -27,15 +26,34 @@ const CustomerUpdate = () => {
             ...formData,
             [name]: value,
         });
+        
 
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
-        setStatus("");
-        console.log(formData);
 
+        const filteredFormData = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value !== "")
+        );
+
+        console.log(formData);
+        let customerId = "66c7000248a8316b0056d1ab";
+
+        try {
+
+            const response = await axios.put(`/customer/update/${customerId}`,filteredFormData);
+            console.log(response);
+            if(response.data.success){
+                toast.success(response.data.message);
+            }
+            
+        } catch (error) {
+            console.log(error);
+
+            toast.error(error.response.data.message);
+            
+        }
         
 
           
@@ -56,8 +74,6 @@ const CustomerUpdate = () => {
                         <h1 className="text-center p-2 text-5xl font-bold m-6">Update Customer</h1>
 
                         <form onSubmit={handleSubmit} className=" w-3/6 p-10">
-                            {error && <p className="">{error}</p>}
-                            {status && <p className="">{status}</p>}
 
                             <div className={inputDiv}>
                                 <label className={inputLabel} htmlFor="form1Example1">

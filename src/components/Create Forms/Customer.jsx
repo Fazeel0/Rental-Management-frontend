@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react"
-// import axios from "axios";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 
 const Customer = () => {
@@ -14,9 +15,6 @@ const Customer = () => {
         phoneNo : "",
         address: "",
     })
-
-    const [error, setError] = useState("");
-    const [status, setStatus] = useState("");
 
 
     //whenever user types in input fields, handles ==>
@@ -32,17 +30,25 @@ const Customer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
-        setStatus("");
         console.log(formData);
 
-        
+        try {
+            const response = await axios.post("/customer/create",formData);
+            console.log(response);
 
-          
+            if(response.data.success){
+                toast.success(response.data.message);
+                
+                console.log(response.data.customer._id);
+                
+            }
+            
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+            
+        }
         
-
-        
-
     }
 
 
@@ -56,8 +62,6 @@ const Customer = () => {
                         <h1 className="text-center p-2 text-5xl font-bold m-6">Create Customer</h1>
 
                         <form onSubmit={handleSubmit} className=" w-3/6 p-10">
-                            {error && <p className="">{error}</p>}
-                            {status && <p className="">{status}</p>}
 
                             <div className={inputDiv}>
                                 <label className={inputLabel} htmlFor="form1Example1">
