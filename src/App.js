@@ -21,8 +21,10 @@ function App() {
   return (
     <>
 
-      <Navbar />
+
       <BrowserRouter>
+        <Navbar />
+
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />

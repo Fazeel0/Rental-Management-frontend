@@ -51,7 +51,7 @@ const SignUp = () => {
             <div className="container mx-auto flex justify-center items-center h-screen w-screen">
 
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
-                    <h1 className="text-center p-2 text-5xl font-bold m-6">Signup</h1>
+                    <h1 className="text-center p-2 text-3xl font-bold m-6">Signup</h1>
 
                     <form onSubmit={handleSubmit} className=" w-3/6 p-10">
 
