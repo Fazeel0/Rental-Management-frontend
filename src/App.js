@@ -18,11 +18,14 @@ function App() {
   return (
     <>
 
-      <Navbar />
+
       <BrowserRouter>
+        <Navbar />
+
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='*' element={<h1>Error 404 not found resources</h1>} />
         </Routes>
       </BrowserRouter>
 

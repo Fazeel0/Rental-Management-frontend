@@ -1,6 +1,25 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { logout } from '../redux/userSlice';
+import { toast } from 'react-toastify';
+
+
 
 const Navbar = () => {
+
+    const logo = "ZD Plates";
+
+    const { user, token } = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    console.log({ user, token });
+
+    const handleLogout = () => {
+        dispatch(logout())
+        toast.success("Logout success");
+    }
+
+
     return (
         <>
             <div className="navbar bg-blue-400">
@@ -23,37 +42,70 @@ const Navbar = () => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            <li><a>Item 1</a></li>
-                            <li>
-                                <a>Parent</a>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Item 3</a></li>
+
+                            {token ?
+                                <>
+                                    <li><NavLink to={"/customer"}>Customer</NavLink></li>
+                                    <li><NavLink to={"/rental"}>Rental</NavLink></li>
+
+                                    {user.roles === "Admin" ? <><li><NavLink to={"/product"}>Users</NavLink></li></> : null}
+
+                                    <li><NavLink to={"/product"}>Product</NavLink></li>
+                                    <button onClick={handleLogout} className='font-semibold text-lg bg-blue-700 px-2 rounded-lg text-white'>
+                                        Logout
+                                    </button>
+                                </>
+                                :
+                                null
+                            }
+
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a className="btn btn-ghost text-xl">{logo}</a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                        <li><a>Customer</a></li>
-                        <li><a>Rental</a></li>
-                        <li>
-                            <details>
-                                <summary>Branches</summary>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </details>
-                        </li>
+
+                        {token ?
+                            <>
+                                <li><NavLink to={"/Customer"} className=' font-semibold text-lg'>Customer</NavLink></li>
+                                <li><NavLink to={"/rental"} className='font-semibold text-lg'>Rental</NavLink></li>
+                                <li><NavLink to={"/product"} className='font-semibold text-lg'>Product</NavLink></li>
+
+                                {user.roles === "Admin" ?
+                                    <li><NavLink to={"/users"} className='font-semibold text-lg'>Users</NavLink></li>
+                                    :
+                                    null
+                                }
+                                <li><NavLink to={"/invoice"} className='font-semibold text-lg'>Invoice</NavLink></li>
+                                <button onClick={handleLogout} className='font-semibold text-lg bg-blue-700 px-2 rounded-lg text-white'>
+                                    Logout
+                                </button>
+                            </>
+                            :
+                            null
+                        }
+
+
                     </ul>
                 </div>
-                <div className="navbar-end">
-                    <a className="btn">Button</a>
-                </div>
+
+                {token ?
+                    <>
+                        <div className="navbar-end mr-24">
+                            <details className="dropdown">
+                                <summary className="btn m-1 font-semibold text-lg">Branches</summary>
+                                <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                    <li><a className='font-semibold text-sm'>Item 1</a></li>
+                                    <li><a className='font-semibold text-sm'>Item 2</a></li>
+                                </ul>
+                            </details>
+                        </div>
+                    </>
+                    :
+                    null
+                }
+
             </div>
         </>
     )
