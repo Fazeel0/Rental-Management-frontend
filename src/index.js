@@ -21,7 +21,7 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
-      <ToastContainer />
+      <ToastContainer autoClose={2000} />
     </Provider>
   </>
 );

@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react"
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
@@ -9,14 +11,13 @@ const SignUp = () => {
     const inputLabel = "mb-2 mr-2 text-xl"
     const inputCss = "p-2 border-2 rounded-md"
 
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         password: "",
     })
 
-    const [error, setError] = useState("");
-    const [status, setStatus] = useState("");
 
 
     //whenever user types in input fields, handles ==>
@@ -32,20 +33,18 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const response = await axios.post("/user/createAdmin", formData);
 
-        console.log(formData);
-
-        
-
-
-
-
-
-
-
+            if (response.data.success) {
+                toast.success(response.data.message);
+                navigate("/");
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
     }
-
-
 
 
     return (
