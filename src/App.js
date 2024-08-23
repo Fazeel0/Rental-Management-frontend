@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ErrorPage from './pages/ErrorPage';
 import ProductDetails from './pages/ProductDetails';
+import AllCustomer from './components/DisplayDetails/AllCustomer';
 
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
           <Route path='/createCustomer' element={<Customer />} />
           <Route path='/updateCustomer' element={<CustomerUpdate />} />
           <Route path='/rentProduct' element={<Rental />} />
+
+          <Route path='/Customer' element={<AllCustomer/>}/>
         </Routes>
 
 
