@@ -14,6 +14,10 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ErrorPage from './pages/ErrorPage';
 import ProductDetails from './pages/ProductDetails';
+import CreateCustomer from './components/Create Forms/CreateCustomer';
+import CreateBranch from './components/Create Forms/CreateBranch';
+import CreateRental from './components/Create Forms/CreateRental';
+import Product from './pages/Product';
 
 
 function App() {
@@ -38,9 +42,26 @@ function App() {
           <Route path='*' element={<ErrorPage />} />
           <Route path='/createBranch' element={<CreateBranch />} />
           <Route path='/updateBranch' element={<BranchUpdate />} />
-          <Route path='/createCustomer' element={<Customer />} />
-          <Route path='/updateCustomer' element={<CustomerUpdate />} />
-          <Route path='/rentProduct' element={<Rental />} />
+
+
+          {/* layout for customer....... */}
+          <Route path='/customer' element={<Customer />}>
+            <Route index element={<CreateCustomer />} />
+            <Route path='update' element={<CustomerUpdate />} />
+
+          </Route>
+
+          <Route path='/rental' element={<Rental />}>
+            <Route index element={<CreateRental />} />
+            <Route path='update' element={<RentalUpdate />} />
+
+          </Route>
+
+          <Route path='/product' element={<Product />}>
+            <Route index element={""} />
+            <Route path='update'/>
+          </Route>
+
         </Routes>
 
 
