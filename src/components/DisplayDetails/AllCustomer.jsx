@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AllCustomer = () => {
   const [customers, setCustomers] = useState([]);
@@ -18,6 +19,22 @@ const AllCustomer = () => {
         console.error("There was an error fetching the customers!", error);
       });
   }, []);
+
+  const handleDelete = async(id)=>{
+    try {
+      const response = await axios.delete(`customer/delete/${id}`);
+      if(response.data.success){
+        toast.success(response.data.message);
+        navigate('/customer')
+      }
+    } catch (error) {
+      console.log("error while deleting",error);
+      toast.error(error.response.data.message);
+      
+    }
+  }
+
+
 
 
 
@@ -49,7 +66,7 @@ const AllCustomer = () => {
                   <i className="fa fa-pencil" aria-hidden="true"  onClick={() => navigate(`/customer/update/${customer._id}`)} ></i>
                   </button>
                   <button variant="ghost" className=" ">
-                  <i className="fa fa-trash" aria-hidden="true"></i>
+                  <i className="fa fa-trash" aria-hidden="true" onClick={()=>handleDelete(customer._id)}></i>
                   </button>
                 </div>
               </td>

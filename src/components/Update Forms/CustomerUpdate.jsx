@@ -22,18 +22,23 @@ const CustomerUpdate = () => {
   });
 
   useEffect(() => {
-    axios.get(`/customer/${id}`)
-      .then((response) => {
-        const customer = response.data.customer;
-        setFormData({
-          name: customer.name,
-          phoneNo: customer.phoneNo,
-          address: customer.address,
-        });
-      })
-      .catch((error) => {
+    const fetchCustomerData = async () => {
+      try {
+        const response = await axios.get(`/customer/${id}`);
+        if (response.data.success) {
+          const customer = response.data.customer;
+          setFormData({
+            name: customer.name,
+            phoneNo: customer.phoneNo,
+            address: customer.address,
+          });
+        }
+      } catch (error) {
         console.error("There was an error fetching the customer data!", error);
-      });
+      }
+    };
+
+    fetchCustomerData();
   }, [id]);
 
   //whenever user types in input fields, handles ==>

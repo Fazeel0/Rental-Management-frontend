@@ -2,9 +2,12 @@ import React from "react";
 import { useState } from "react"
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 const CreateCustomer = () => {
+
+    const navigate = useNavigate();
 
     const inputDiv = "mb-4 flex flex-col"
     const inputLabel = "mb-2 text-xl"
@@ -40,6 +43,8 @@ const CreateCustomer = () => {
                 toast.success(response.data.message);
 
                 console.log(response.data.customer._id);
+
+                navigate('/customer/all')
 
             }
 
