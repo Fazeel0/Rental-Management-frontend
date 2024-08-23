@@ -1,11 +1,10 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react"
-import { toast } from "react-toastify";
-// import axios from "axios";
+import { toast } from 'react-toastify'
 
 
-const CustomerUpdate = () => {
+const CreateBranch = () => {
 
     const inputDiv = "mb-4 flex flex-col"
     const inputLabel = "mb-2 text-xl"
@@ -13,8 +12,8 @@ const CustomerUpdate = () => {
 
     const [formData, setFormData] = useState({
         name: "",
-        phoneNo: "",
-        address: "",
+        location: "",
+        contact: "",
     })
 
 
@@ -27,39 +26,25 @@ const CustomerUpdate = () => {
             [name]: value,
         });
 
-
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const filteredFormData = Object.fromEntries(
-            Object.entries(formData).filter(([key, value]) => value !== "")
-        );
-
         console.log(formData);
-        let customerId = "66c7000248a8316b0056d1ab";
 
         try {
-
-            const response = await axios.put(`/customer/update/${customerId}`, filteredFormData);
+            const response = await axios.post("/branch/create", formData);
             console.log(response);
+
             if (response.data.success) {
                 toast.success(response.data.message);
             }
 
         } catch (error) {
             console.log(error);
-
             toast.error(error.response.data.message);
 
         }
-
-
-
-
-
-
 
     }
 
@@ -68,37 +53,37 @@ const CustomerUpdate = () => {
 
     return (
         <>
-            <div className="container mx-auto flex justify-center items-center h-screen">
+            <div className="container mx-auto flex justify-center items-center h-screen w-screen">
 
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
-                    <h1 className="text-center p-2 text-5xl font-bold m-6">Update Customer</h1>
+                    <h1 className="text-center p-2 text-5xl font-bold m-6">Create Branch</h1>
 
                     <form onSubmit={handleSubmit} className=" w-3/6 p-10">
 
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example1">
-                                Customer Name
+                                Branch Name
                             </label>
                             <input type="text" id="form1Example1" className={inputCss}
-                                placeholder="Customer Name" name="name"
+                                placeholder="Branch Name" name="name"
                                 onChange={handleChange}
-                                value={formData.name} />
+                                value={formData.name} required />
                         </div>
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example2">
-                                Phone Number
+                                Location
                             </label>
-                            <input type="Number" id="form1Example2" className={inputCss} placeholder="Phone Number"
-                                name="phoneNo" onChange={handleChange}
-                                value={formData.phoneNo} />
+                            <input type="text" id="form1Example2" className={inputCss} placeholder="Location"
+                                name="location" onChange={handleChange}
+                                value={formData.location} required />
                         </div>
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example2">
-                                Address
+                                Contact Number
                             </label>
-                            <input type="text" id="form1Example2" className={inputCss} placeholder="Address"
-                                name="address" onChange={handleChange}
-                                value={formData.address} />
+                            <input type="Number" id="form1Example2" className={inputCss} placeholder="Contact Number"
+                                name="contact" onChange={handleChange}
+                                value={formData.contact} required />
                         </div>
 
                         <div className="text-center">
@@ -106,7 +91,7 @@ const CustomerUpdate = () => {
                                 type="submit"
                                 className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
                             >
-                                Update Customer
+                                Create Branch
                             </button>
                         </div>
                     </form>
@@ -121,4 +106,4 @@ const CustomerUpdate = () => {
     )
 }
 
-export default CustomerUpdate;
+export default CreateBranch;

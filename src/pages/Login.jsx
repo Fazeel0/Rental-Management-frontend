@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react"
 import axios from "axios";
 import { toast } from 'react-toastify'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
@@ -11,6 +12,18 @@ const Login = () => {
     const inputLabel = "mb-2 text-sm"
     const inputCss = "p-2 border-2 rounded-md"
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { token } = useSelector(state => state.user);
+
+
+
+    useEffect(() => {
+        //if user is logged in then redirecting
+        if (token) {
+            navigate("/customer");
+        }
+    }, [])
 
     const [formData, setFormData] = useState({
         email: "",
@@ -45,6 +58,7 @@ const Login = () => {
 
                 dispatch(login({ user, token }));
                 toast.success(response.data.message);
+                navigate("/customer");
             }
 
 

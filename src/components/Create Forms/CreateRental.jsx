@@ -3,7 +3,7 @@ import { useState } from "react"
 // import axios from "axios";
 
 
-const RentalUpdate = () => {
+const CreateRental = () => {
 
     const inputDiv = "mb-4 flex flex-row "
     const inputLabel = "mb-2 mx-3 text-xl"
@@ -56,7 +56,7 @@ const RentalUpdate = () => {
             <div className="container mx-auto flex justify-center items-center h-screen">
 
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary   w-full h-3/4 flex flex-col justify-center items-center" id="login-box">
-                    <h1 className="text-center p-2 text-5xl font-bold m-6">Update Rented Product</h1>
+                    <h1 className="text-center p-2 text-5xl font-bold m-6">Rent Product</h1>
 
                     <form onSubmit={handleSubmit} className=" w-5/6 p-10">
                         {error && <p className="">{error}</p>}
@@ -69,14 +69,14 @@ const RentalUpdate = () => {
                             <input type="date" id="form1Example1" className={inputCss}
                                 placeholder="" name="startDate"
                                 onChange={handleChange}
-                                value={formData.name} />
+                                value={formData.name} required />
                             <label className={inputLabel} htmlFor="form1Example1">
                                 Return Date
                             </label>
                             <input type="date" id="form1Example1" className={inputCss}
                                 placeholder="" name="endDate"
                                 onChange={handleChange}
-                                value={formData.name} />
+                                value={formData.name} required />
                         </div>
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example1">
@@ -85,7 +85,7 @@ const RentalUpdate = () => {
                             <input type="text" id="form1Example1" className={inputCss}
                                 placeholder="Customer Name" name="cName"
                                 onChange={handleChange}
-                                value={formData.email} />
+                                value={formData.email} required />
                             <label className={inputLabel} htmlFor="form1Example1">
                                 Customer Id :-
                             </label>
@@ -98,7 +98,7 @@ const RentalUpdate = () => {
                             <input type="text" id="form1Example1" className={inputCss}
                                 placeholder="Customer Name" name="cName"
                                 onChange={handleChange}
-                                value={formData.email} />
+                                value={formData.email} required />
                             <label className={inputLabel} htmlFor="form1Example1">
                                 Product Id :-
                             </label>
@@ -111,7 +111,7 @@ const RentalUpdate = () => {
                             <input type="number" id="form1Example1" className={inputCss}
                                 placeholder="Quantity" name="quantity"
                                 onChange={handleChange}
-                                value={formData.quantity} />
+                                value={formData.quantity} required />
                             <label className={inputLabel} htmlFor="form1Example1">
                                 In Stock :-
                             </label>
@@ -123,7 +123,7 @@ const RentalUpdate = () => {
                             </label>
                             <input type="number" id="form1Example2" className={inputCss} placeholder="Paid Amount"
                                 name="paidAmount" onChange={handleChange}
-                                value={formData.password} />
+                                value={formData.password} required />
                             <label className={inputLabel} htmlFor="form1Example2">
                                 Total Amount :-
                             </label>
@@ -155,4 +155,4 @@ const RentalUpdate = () => {
     )
 }
 
-export default RentalUpdate;
+export default CreateRental;

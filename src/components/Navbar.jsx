@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/userSlice';
@@ -90,7 +90,11 @@ const Navbar = () => {
                                 <li><NavLink to={"/product"} className='font-semibold text-lg'>Product</NavLink></li>
 
                                 {user.roles === "Admin" ?
-                                    <li><NavLink to={"/users"} className='font-semibold text-lg'>Users</NavLink></li>
+                                    <>
+                                        <li><NavLink to={"/users"} className='font-semibold text-lg'>Users</NavLink></li>
+                                        <li><NavLink to={"/branches"} className='font-semibold text-lg'>Branches</NavLink></li>
+                                    </>
+
                                     :
                                     null
                                 }

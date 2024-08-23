@@ -1,11 +1,10 @@
-import axios from "axios";
 import React from "react";
 import { useState } from "react"
+import axios from "axios";
 import { toast } from "react-toastify";
-// import axios from "axios";
 
 
-const CustomerUpdate = () => {
+const CreateCustomer = () => {
 
     const inputDiv = "mb-4 flex flex-col"
     const inputLabel = "mb-2 text-xl"
@@ -27,43 +26,30 @@ const CustomerUpdate = () => {
             [name]: value,
         });
 
-
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const filteredFormData = Object.fromEntries(
-            Object.entries(formData).filter(([key, value]) => value !== "")
-        );
-
         console.log(formData);
-        let customerId = "66c7000248a8316b0056d1ab";
 
         try {
-
-            const response = await axios.put(`/customer/update/${customerId}`, filteredFormData);
+            const response = await axios.post("/customer/create", formData);
             console.log(response);
+
             if (response.data.success) {
                 toast.success(response.data.message);
+
+                console.log(response.data.customer._id);
+
             }
 
         } catch (error) {
             console.log(error);
-
             toast.error(error.response.data.message);
 
         }
 
-
-
-
-
-
-
     }
-
-
 
 
     return (
@@ -71,7 +57,7 @@ const CustomerUpdate = () => {
             <div className="container mx-auto flex justify-center items-center h-screen">
 
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
-                    <h1 className="text-center p-2 text-5xl font-bold m-6">Update Customer</h1>
+                    <h1 className="text-center p-2 text-5xl font-bold m-6">Create Customer</h1>
 
                     <form onSubmit={handleSubmit} className=" w-3/6 p-10">
 
@@ -82,7 +68,7 @@ const CustomerUpdate = () => {
                             <input type="text" id="form1Example1" className={inputCss}
                                 placeholder="Customer Name" name="name"
                                 onChange={handleChange}
-                                value={formData.name} />
+                                value={formData.name} required />
                         </div>
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example2">
@@ -90,7 +76,7 @@ const CustomerUpdate = () => {
                             </label>
                             <input type="Number" id="form1Example2" className={inputCss} placeholder="Phone Number"
                                 name="phoneNo" onChange={handleChange}
-                                value={formData.phoneNo} />
+                                value={formData.phoneNo} required />
                         </div>
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example2">
@@ -98,7 +84,7 @@ const CustomerUpdate = () => {
                             </label>
                             <input type="text" id="form1Example2" className={inputCss} placeholder="Address"
                                 name="address" onChange={handleChange}
-                                value={formData.address} />
+                                value={formData.address} required />
                         </div>
 
                         <div className="text-center">
@@ -106,7 +92,7 @@ const CustomerUpdate = () => {
                                 type="submit"
                                 className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
                             >
-                                Update Customer
+                                Create Customer
                             </button>
                         </div>
                     </form>
@@ -121,4 +107,4 @@ const CustomerUpdate = () => {
     )
 }
 
-export default CustomerUpdate;
+export default CreateCustomer;
