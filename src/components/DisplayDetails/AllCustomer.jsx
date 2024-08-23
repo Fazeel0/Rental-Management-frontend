@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { TbFilePencil } from "react-icons/tb";
-import { MdDeleteForever } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const AllCustomer = () => {
@@ -33,6 +31,7 @@ const AllCustomer = () => {
             <th className="py-2 px-4 border-b text-left">Phone Number</th>
             <th className="py-2 px-4 border-b text-left">Address</th>
             <th className="py-2 px-4 border-b text-left">Created At</th>
+            <th className="py-2 px-4 border-b text-left">Update & Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -45,12 +44,12 @@ const AllCustomer = () => {
                 {new Date(customer.createdAt).toLocaleDateString()}
               </td>
               <td className="py-2 px-4 border-b">
-                <div className="flex justify-between gap-2">
+                <div className="flex justify-evenly gap-2">
                   <button variant="ghost" className="rounded-full">
-                    <TbFilePencil onClick={() => navigate(`/customer/update/${customer._id}`)} className="w-6 h-8" />
+                  <i className="fa fa-pencil" aria-hidden="true"  onClick={() => navigate(`/customer/update/${customer._id}`)} ></i>
                   </button>
                   <button variant="ghost" className=" ">
-                    <MdDeleteForever className="w-6 h-8" />
+                  <i className="fa fa-trash" aria-hidden="true"></i>
                   </button>
                 </div>
               </td>
