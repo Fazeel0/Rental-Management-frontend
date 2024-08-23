@@ -33,7 +33,7 @@ const CreateBranch = () => {
         console.log(formData);
 
         try {
-            const response = await axios.post("/branch/create", formData);
+            const response = await axios.post("/branch/createBranch", formData);
             console.log(response);
 
             if (response.data.success) {
@@ -43,7 +43,6 @@ const CreateBranch = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
-
         }
 
     }
@@ -53,10 +52,10 @@ const CreateBranch = () => {
 
     return (
         <>
-            <div className="container mx-auto flex justify-center items-center h-screen w-screen">
+            <div className="container mx-auto flex justify-center items-center h-screen">
 
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
-                    <h1 className="text-center p-2 text-5xl font-bold m-6">Create Branch</h1>
+                    <h1 className="text-center p-2 text-4xl font-bold m-6">Add Branch</h1>
 
                     <form onSubmit={handleSubmit} className=" w-3/6 p-10">
 

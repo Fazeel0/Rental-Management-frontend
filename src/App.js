@@ -19,6 +19,7 @@ import Users from './pages/Users';
 import Branch from './pages/Branch';
 import Invoice from './pages/Invoice';
 import AllCustomer from './components/DisplayDetails/AllCustomer';
+import AllBranches from './components/DisplayDetails/AllBranches';
 
 
 
@@ -68,8 +69,9 @@ function App() {
           </Route>
 
           <Route path='/branch' element={<Branch />}>
-            <Route index element={""} />
-            <Route path='update' element={""} />
+            <Route index element={<CreateBranch />} />
+            <Route path='update/:id' element={<BranchUpdate />} />
+            <Route path='all' element={<AllBranches />} />
           </Route>
 
           <Route path='invoice' element={<Invoice />} />
