@@ -1,11 +1,17 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react"
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 // import axios from "axios";
 
 
 const CustomerUpdate = () => {
+
+    const params = useParams();
+
+    const id = params.id;
+    console.log("Id ", id);
 
     const inputDiv = "mb-4 flex flex-col"
     const inputLabel = "mb-2 text-xl"
@@ -52,18 +58,12 @@ const CustomerUpdate = () => {
             console.log(error);
 
             toast.error(error.response.data.message);
-
         }
 
 
 
 
-
-
-
     }
-
-
 
 
     return (

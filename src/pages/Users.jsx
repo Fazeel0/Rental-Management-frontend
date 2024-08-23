@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
-const Product = () => {
+const Users = () => {
     return (
         <>
             <div className="drawer md:drawer-open">
@@ -24,8 +24,8 @@ const Product = () => {
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                     <ul className="menu bg-base-200 text-base-content min-h-full w-[16rem] p-4 space-y-4">
                         {/* Sidebar content here */}
-                        <li className='font-bold text-lg'><Link to={"/product"}>Add Product</Link></li>
-                        <li className='font-bold text-lg'><NavLink to={"/product/update"}>Update Product</NavLink></li>
+                        <li className='font-bold text-lg'><Link to={"/users"}>Add User</Link></li>
+                        <li className='font-bold text-lg'><NavLink to={"/users/update"}>Update User</NavLink></li>
                     </ul>
                 </div>
             </div>
@@ -33,4 +33,4 @@ const Product = () => {
     )
 }
 
-export default Product
+export default Users
