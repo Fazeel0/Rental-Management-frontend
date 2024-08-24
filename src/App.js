@@ -20,6 +20,9 @@ import Branch from './pages/Branch';
 import Invoice from './pages/Invoice';
 import AllCustomer from './components/DisplayDetails/AllCustomer';
 import AllBranches from './components/DisplayDetails/AllBranches';
+import CreateUser from './components/Create Forms/CreateUser';
+import UpdateUser from './components/Update Forms/UpdateUser';
+import AllUser from './components/DisplayDetails/AllUser';
 
 
 
@@ -64,8 +67,9 @@ function App() {
           </Route>
 
           <Route path='/users' element={<Users />}>
-            <Route index element={""} />
-            <Route path='update' element={""} />
+            <Route index element={<CreateUser />} />
+            <Route path='update/:id' element={<UpdateUser />} />
+            <Route path='all' element={<AllUser />} />
           </Route>
 
           <Route path='/branch' element={<Branch />}>

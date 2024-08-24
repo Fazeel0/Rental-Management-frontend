@@ -3,12 +3,15 @@ import { useState } from "react"
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Loader from "../Loader";
 
 
 const BranchUpdate = () => {
 
     const { id } = useParams();
     console.log("Branch ID: ", id);
+
+    const [loading, setLoading] = useState()
 
     const inputDiv = "mb-4 flex flex-col"
     const inputLabel = "mb-2 text-xl"
@@ -25,13 +28,16 @@ const BranchUpdate = () => {
     useEffect(() => {
         const getBranchById = async (id) => {
             try {
+                setLoading(true);
                 const response = await axios.get(`/branch/${id}`);
+                setLoading(false);
 
                 if (response.data.success) {
                     setbranch(response.data.branch);
 
                 }
             } catch (error) {
+                setLoading(false);
                 console.log(error);
                 toast.error(error.response.data.message);
             }
@@ -75,6 +81,10 @@ const BranchUpdate = () => {
             toast.error(error.response.data.message)
 
         }
+    }
+
+    if (loading === true) {
+        return <Loader />;
     }
 
     return (

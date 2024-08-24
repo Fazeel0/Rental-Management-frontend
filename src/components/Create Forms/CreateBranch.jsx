@@ -57,7 +57,7 @@ const CreateBranch = () => {
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
                     <h1 className="text-center p-2 text-4xl font-bold m-6">Add Branch</h1>
 
-                    <form onSubmit={handleSubmit} className=" w-3/6 p-10">
+                    <form onSubmit={handleSubmit} className="w-[70vw] sm:w-[70%] p-10">
 
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example1">
