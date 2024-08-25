@@ -23,6 +23,7 @@ import AllBranches from './components/DisplayDetails/AllBranches';
 import CreateUser from './components/Create Forms/CreateUser';
 import UpdateUser from './components/Update Forms/UpdateUser';
 import AllUser from './components/DisplayDetails/AllUser';
+import CreateProduct from './components/Create Forms/Createproduct';
 
 
 
@@ -62,7 +63,7 @@ function App() {
           </Route>
 
           <Route path='/product' element={<Product />}>
-            <Route index element={""} />
+            <Route index element={<CreateProduct />}/>
             <Route path='update' />
           </Route>
 

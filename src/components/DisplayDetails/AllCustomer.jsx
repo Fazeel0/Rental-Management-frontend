@@ -67,6 +67,7 @@ const AllCustomer = () => {
       <table className="min-w-full bg-white border-2 ">
         <thead>
           <tr>
+            <th className="py-2 px-4 border-b text-left"></th>
             <th className="py-2 px-4 border-b text-left">Name</th>
             <th className="py-2 px-4 border-b text-left">Phone Number</th>
             <th className="py-2 px-4 border-b text-left">Address</th>
@@ -76,8 +77,9 @@ const AllCustomer = () => {
           </tr>
         </thead>
         <tbody>
-          {customers.map((customer) => (
+          {customers.map((customer,index) => (
             <tr key={customer._id}>
+              <th >{index + 1}</th>
               <td className="py-2 px-4 border-b">{customer.name}</td>
               <td className="py-2 px-4 border-b">{customer.phoneNo}</td>
               <td className="py-2 px-4 border-b">{customer.address}</td>
