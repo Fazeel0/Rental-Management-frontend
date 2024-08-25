@@ -1,34 +1,45 @@
 import axios from "axios";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState , useEffect} from "react";
 import { toast } from "react-toastify";
 
-const CreateProduct = () => {
+const ProductUpdate = () => {
   const inputDiv = "mb-4 flex flex-col";
   const inputLabel = "mb-2 text-xl";
   const inputCss = "p-2 border-2 rounded-md";
 
   const navigate = useNavigate();
+  const params = useParams();
+
+  const id = params.id;
 
   const [formData, setFormData] = useState({
     name: "",
     price: "",
     allotedQuantity: "",
-    branch: "",
+    // scrap : [
+    //     {
+    //         quantity : "",   
+    //         reason : ""
+    //     }
+    // ]
+    
   });
 
-  const [branches, setBranches] = useState();
+  const [product, setProduct] = useState();
 
   useEffect(() => {
-    getAllBranches();
+    getProduct();
   }, []);
 
-  const getAllBranches = async () => {
+  const getProduct = async () => {
     try {
-      const response = await axios.get("/branch/all");
+      const response = await axios.get(`/product/${id}`);
+      console.log(response);
+      
       if (response.data.success) {
-        setBranches(response.data.branches);
+        setProduct(response.data.product);
       }
     } catch (error) {
       console.log(error);
@@ -48,19 +59,20 @@ const CreateProduct = () => {
     });
   };
 
-  const handleBranchChange = (e) => {
-    setFormData({
-      ...formData,
-      branch: e.target.value,
-    });
-  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
 
+    const filteredFormData = Object.fromEntries(
+        Object.entries(formData).filter(([key, value]) => value !== "")
+    );
+    console.log(filteredFormData);
+    
+
     try {
-      const response = await axios.post("/product/new", formData);
+      const response = await axios.put(`/product/${id}`, filteredFormData);
       console.log(response);
 
       if (response.data.success) {
@@ -81,7 +93,7 @@ const CreateProduct = () => {
           id="login-box"
         >
           <h1 className="text-center p-2 text-4xl font-bold m-6">
-            Add Product
+            Update Product
           </h1>
 
           <form onSubmit={handleSubmit} className="w-[70vw] sm:w-[70%] p-10">
@@ -93,11 +105,11 @@ const CreateProduct = () => {
                 type="text"
                 id="form1Example1"
                 className={inputCss}
-                placeholder="Product Name"
+                placeholder={product?.name}
                 name="name"
                 onChange={handleChange}
                 value={formData.name}
-                required
+                // required
               />
             </div>
             <div className="flex xl:flex-row  xl:justify-between md:flex-col gap-2">
@@ -109,11 +121,11 @@ const CreateProduct = () => {
                   type="number"
                   id="form1Example2"
                   className={inputCss}
-                  placeholder="Price"
+                  placeholder={product?.price}
                   name="price"
                   onChange={handleChange}
                   value={formData.price}
-                  required
+                //   required
                 />
               </div>
               <div className={inputDiv}>
@@ -124,43 +136,53 @@ const CreateProduct = () => {
                   type="Number"
                   id="form1Example2"
                   className={inputCss}
-                  placeholder="Alloted Quantity"
+                  placeholder={product?.allotedQuantity}
                   name="allotedQuantity"
                   onChange={handleChange}
                   value={formData.allotedQuantity}
-                  required
+                //   required
                 />
               </div>
             </div>
+              <div className={inputDiv}>
+                <label className={inputLabel} htmlFor="form1Example2">
+                Scrap Quantity
+                </label>
+                <input
+                  type="Number"
+                  id="form1Example2"
+                  className={inputCss}
+                  placeholder="Scrap Quantity"
+                  name="quantity"
+                  onChange={handleChange}
+                  value=""
+                //   required
+                />
+              </div>
+              <div className={inputDiv}>
+                <label className={inputLabel} htmlFor="form1Example2">
+                Scrap Reason
+                </label>
+                <textarea
+                  type="text"
+                  id="form1Example2"
+                  className={inputCss}
+                  placeholder="Scrap Reason"
+                  name="reason"
+                  onChange={handleChange}
+                  value=""
+                //   required
+                />
+              </div>
 
-            <div class="flex flex-col gap-4">
-              <label for="options" class="text-xl   ">
-                Choose Branch
-              </label>
-              <select
-                onChange={handleBranchChange}
-                id="options"
-                class="p-2 border-2 rounded-md mb-3"
-              >
-                <option></option>
-                {branches?.map((branch,index) => {
-                  return (
-                    <>
-                      <option key={branch._id} value={branch._id}><span>{index+1}. </span>
-                        {branch.name}
-                      </option>
-                    </>
-                  );
-                })}
-              </select>
-            </div>
+            
 
             <div className="text-center">
               <button
                 type="submit"
                 className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
               >
-                Add Product
+                Update Product
               </button>
             </div>
           </form>
@@ -170,4 +192,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default ProductUpdate;

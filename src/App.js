@@ -23,8 +23,9 @@ import AllBranches from './components/DisplayDetails/AllBranches';
 import CreateUser from './components/Create Forms/CreateUser';
 import UpdateUser from './components/Update Forms/UpdateUser';
 import AllUser from './components/DisplayDetails/AllUser';
-import CreateProduct from './components/Create Forms/Createproduct';
+import CreateProduct from './components/Create Forms/CreateProduct';
 import AllProducts from './components/DisplayDetails/AllProducts';
+import ProductUpdate from './components/Update Forms/ProductUpdate';
 
 
 
@@ -65,6 +66,7 @@ function App() {
 
           <Route path='/product' element={<Product />}>
             <Route index element={<CreateProduct />}/>
+            <Route path='/product/update/:id' element={<ProductUpdate/>}/>
             <Route path='all' element={<AllProducts/>} />
           </Route>
 

@@ -31,26 +31,7 @@ const AllProducts = () => {
     getAllProducts();
   }, [uichange]);
 
-  const deleteBranch = async (id) => {
-    try {
-      console.log("delete :", id);
-      let agree = window.confirm("Are you sure, want to delete this branch?");
-
-      if (agree) {
-        const response = await axios.post(`/branch/delete/${id}`);
-
-        if (response.data.success) {
-          setuichange(!uichange);
-          toast.success(response.data.message);
-        }
-      } else {
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
-    }
-  };
+  
 
   if (loading === true) {
     return (
@@ -115,8 +96,8 @@ const AllProducts = () => {
                 <th></th>
                 <th className="text-xl text-black">Name</th>
                 <th className="text-xl text-black">Price</th>
-                <th className="text-xl text-black">Availabe Quantity</th>
                 <th className="text-xl text-black">Alloted Quantity</th>
+                <th className="text-xl text-black">Availabe Quantity</th>
                 <th className="text-xl text-black">Rented Quantity</th>
                 <th className="text-xl text-black">Scrap Quantity</th>
                 <th className="text-xl text-black">Scrap Reason</th>
@@ -133,9 +114,9 @@ const AllProducts = () => {
                       <th>{index + 1}</th>
                       <td>{product?.name}</td>
                       <td>{product?.price}</td>
+                      <td>{product?.allotedQuantity}</td>
                       <td>{product?.availableQuantity}</td>
-                      <td>{product?.allotedQuantity}</td>
-                      <td>{product?.allotedQuantity}</td>
+                      <td>{product?.rentedQuantity}</td>
                       <td>{product.scrap?.quantity}</td>
                       <td>{product.scrap?.reason}</td>
                       <td>
