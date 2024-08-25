@@ -25,7 +25,7 @@ const Customer = () => {
                     <ul className="menu bg-base-200 text-base-content min-h-full w-[16rem] p-4 space-y-4">
                         {/* Sidebar content here */}
                         <li className='font-bold text-lg'><Link to={"/customer"}>Add Customer</Link></li>
-                        <li className='font-bold text-lg'><NavLink to={"/customer/all"}>Display Customers</NavLink></li>
+                        <li className='font-bold text-lg'><NavLink to={"/customer/all"}>All Customers</NavLink></li>
                     </ul>
                 </div>
             </div>

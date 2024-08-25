@@ -24,6 +24,7 @@ import CreateUser from './components/Create Forms/CreateUser';
 import UpdateUser from './components/Update Forms/UpdateUser';
 import AllUser from './components/DisplayDetails/AllUser';
 import CreateProduct from './components/Create Forms/Createproduct';
+import AllProducts from './components/DisplayDetails/AllProducts';
 
 
 
@@ -64,7 +65,7 @@ function App() {
 
           <Route path='/product' element={<Product />}>
             <Route index element={<CreateProduct />}/>
-            <Route path='update' />
+            <Route path='all' element={<AllProducts/>} />
           </Route>
 
           <Route path='/users' element={<Users />}>

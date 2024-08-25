@@ -6,6 +6,7 @@ import Loader from "../Loader";
 
 const AllCustomer = () => {
   const [customers, setCustomers] = useState([]);
+  const [uichange, setuichange] = useState(false);
   const [loading, setLoading] = useState();
 
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const AllCustomer = () => {
       .catch((error) => {
         console.error("There was an error fetching the customers!", error);
       });
-  }, []);
+  }, [uichange]);
 
   const handleDelete = async (id) => {
     try {
@@ -28,14 +29,15 @@ const AllCustomer = () => {
       if (isConfirmed) {
         setLoading(true);
         const response = await axios.delete(`customer/delete/${id}`);
-        setLoading(false);
         if (response.data.success) {
+          setLoading(false);
           toast.success(response.data.message);
-          setCustomers(customers.filter((customer) => customer._id !== id));
+          setuichange(!uichange);
         }
       }
     } catch (error) {
       console.log("Error while deleting", error);
+      setLoading(false);
       toast.error(error.response?.data?.message || "Error deleting customer");
     }
   };
@@ -62,72 +64,79 @@ const AllCustomer = () => {
 
   if (loading === true) return <Loader />;
   return (
-    <div className="container mx-auto m-5">
-      <h2 className="text-2xl font-bold mb-4">Customer List</h2>
-      <table className="min-w-full bg-white border-2 ">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b text-left"></th>
-            <th className="py-2 px-4 border-b text-left">Name</th>
-            <th className="py-2 px-4 border-b text-left">Phone Number</th>
-            <th className="py-2 px-4 border-b text-left">Address</th>
-            <th className="py-2 px-4 border-b text-left">Created At</th>
-            <th className="py-2 px-4 border-b text-left">Update</th>
-            <th className="py-2 px-4 border-b text-left">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {customers.map((customer,index) => (
-            <tr key={customer._id}>
-              <th >{index + 1}</th>
-              <td className="py-2 px-4 border-b">{customer.name}</td>
-              <td className="py-2 px-4 border-b">{customer.phoneNo}</td>
-              <td className="py-2 px-4 border-b">{customer.address}</td>
-              <td className="py-2 px-4 border-b">
-                {new Date(customer.createdAt).toLocaleDateString()}
-              </td>
-              <td>
-                <i
-                  onClick={() => navigate(`/customer/update/${customer._id}`)}
-                  class="py-2 px-4 fa-solid fa-pen-to-square text-green-800 cursor-pointer"
-                ></i>
-              </td>
-              <td>
-                <i
-                  onClick={() => handleDelete(customer._id)}
-                  class="py-2 px-4 fa-solid fa-trash text-red-600 cursor-pointer"
-                ></i>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <>
+      {!customers ? (
+        <h1 className="bg-red-300 p-3 rounded-lg text-3xl mt-2 mx-2 text-white">
+          Products not available
+        </h1>
+      ) : (
+        <div className="container mx-auto m-5">
+          <h2 className="text-2xl font-bold mb-4">Customer List</h2>
+          <table className="min-w-full bg-white border-2 ">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border-b text-left"></th>
+                <th className="py-2 px-4 border-b text-left">Name</th>
+                <th className="py-2 px-4 border-b text-left">Phone Number</th>
+                <th className="py-2 px-4 border-b text-left">Address</th>
+                <th className="py-2 px-4 border-b text-left">Created At</th>
+                <th className="py-2 px-4 border-b text-left">Update</th>
+                <th className="py-2 px-4 border-b text-left">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.map((customer, index) => (
+                <tr key={customer._id}>
+                  <th>{index + 1}</th>
+                  <td className="py-2 px-4 border-b">{customer.name}</td>
+                  <td className="py-2 px-4 border-b">{customer.phoneNo}</td>
+                  <td className="py-2 px-4 border-b">{customer.address}</td>
+                  <td className="py-2 px-4 border-b">
+                    {new Date(customer.createdAt).toLocaleDateString()}
+                  </td>
+                  <td>
+                    <i
+                      onClick={() =>
+                        navigate(`/customer/update/${customer._id}`)
+                      }
+                      class="py-2 px-4 fa-solid fa-pen-to-square text-green-800 cursor-pointer"
+                    ></i>
+                  </td>
+                  <td>
+                    <i
+                      onClick={() => handleDelete(customer._id)}
+                      class="py-2 px-4 fa-solid fa-trash text-red-600 cursor-pointer"
+                    ></i>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-      {/* confirmation box */}
-      <div
-        id="confirmDialog"
-        class="absolute  top-0 right-0 hidden "
-      >
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h2 class="text-xl font-semibold mb-4">Confirmation</h2>
-          <p class="mb-6">Are you sure you want to delete?</p>
-          <div class="flex justify-center gap-4">
-            <button
-              id="confirmYes"
-              class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              Yes
-            </button>
-            <button
-              id="confirmNo"
-              class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-            >
-              No
-            </button>
+          {/* confirmation box */}
+          <div id="confirmDialog" class="absolute  top-0 right-0 hidden ">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+              <h2 class="text-xl font-semibold mb-4">Confirmation</h2>
+              <p class="mb-6">Are you sure you want to delete?</p>
+              <div class="flex justify-center gap-4">
+                <button
+                  id="confirmYes"
+                  class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Yes
+                </button>
+                <button
+                  id="confirmNo"
+                  class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                >
+                  No
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

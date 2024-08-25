@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useState } from "react"
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../Loader";
 
 
 const BranchUpdate = () => {
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
     console.log("Branch ID: ", id);
@@ -70,10 +72,11 @@ const BranchUpdate = () => {
         console.log(filteredFormData);
 
         try {
-            const response = await axios.post(`/branch/update/${id}`, filteredFormData);
+            const response = await axios.put(`/branch/update/${id}`, filteredFormData);
 
             if (response.data.success) {
                 toast.success(response.data.message);
+                navigate('/branch/all')
             }
 
         } catch (error) {
