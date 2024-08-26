@@ -1,12 +1,12 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const ProductUpdate = () => {
   const inputDiv = "mb-4 flex flex-col";
-  const inputLabel = "mb-2 text-xl";
+  const inputLabel = "mb-2 text-lg";
   const inputCss = "p-2 border-2 rounded-md";
 
   const navigate = useNavigate();
@@ -18,13 +18,8 @@ const ProductUpdate = () => {
     name: "",
     price: "",
     allotedQuantity: "",
-    // scrap : [
-    //     {
-    //         quantity : "",   
-    //         reason : ""
-    //     }
-    // ]
-    
+    quantity: "",
+    reason: ""
   });
 
   const [product, setProduct] = useState();
@@ -36,8 +31,7 @@ const ProductUpdate = () => {
   const getProduct = async () => {
     try {
       const response = await axios.get(`/product/${id}`);
-      console.log(response);
-      
+
       if (response.data.success) {
         setProduct(response.data.product);
       }
@@ -59,17 +53,34 @@ const ProductUpdate = () => {
     });
   };
 
-  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
-    const filteredFormData = Object.fromEntries(
-        Object.entries(formData).filter(([key, value]) => value !== "")
+    let filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== "")
     );
-    console.log(filteredFormData);
-    
+
+    if (filteredFormData.quantity) {
+      if (!filteredFormData.reason) {
+        toast.error("Required Reason for scrap!");
+        return;
+      }
+
+      if (filteredFormData.quantity && filteredFormData.reason) {
+        let scrapObj = {
+          quantity: filteredFormData.quantity,
+          reason: filteredFormData.reason
+        }
+
+        filteredFormData = { ...filteredFormData, scrap: scrapObj };
+      }
+
+      delete filteredFormData.quantity;
+      delete filteredFormData.reason;
+
+    }
 
     try {
       const response = await axios.put(`/product/${id}`, filteredFormData);
@@ -109,7 +120,7 @@ const ProductUpdate = () => {
                 name="name"
                 onChange={handleChange}
                 value={formData.name}
-                // required
+              // required
               />
             </div>
             <div className="flex xl:flex-row  xl:justify-between md:flex-col gap-2">
@@ -130,7 +141,7 @@ const ProductUpdate = () => {
               </div>
               <div className={inputDiv}>
                 <label className={inputLabel} htmlFor="form1Example2">
-                  Alloted Quantity
+                  Add to Alloted Quantity
                 </label>
                 <input
                   type="Number"
@@ -144,38 +155,38 @@ const ProductUpdate = () => {
                 />
               </div>
             </div>
-              <div className={inputDiv}>
-                <label className={inputLabel} htmlFor="form1Example2">
+            <div className={inputDiv}>
+              <label className={inputLabel} htmlFor="form1Example2">
                 Scrap Quantity
-                </label>
-                <input
-                  type="Number"
-                  id="form1Example2"
-                  className={inputCss}
-                  placeholder="Scrap Quantity"
-                  name="quantity"
-                  onChange={handleChange}
-                  value=""
-                //   required
-                />
-              </div>
-              <div className={inputDiv}>
-                <label className={inputLabel} htmlFor="form1Example2">
+              </label>
+              <input
+                type="Number"
+                id="form1Example2"
+                className={inputCss}
+                placeholder="Scrap Quantity"
+                name="quantity"
+                onChange={handleChange}
+                value={formData.quantity}
+              //   required
+              />
+            </div>
+            <div className={inputDiv}>
+              <label className={inputLabel} htmlFor="form1Example2">
                 Scrap Reason
-                </label>
-                <textarea
-                  type="text"
-                  id="form1Example2"
-                  className={inputCss}
-                  placeholder="Scrap Reason"
-                  name="reason"
-                  onChange={handleChange}
-                  value=""
-                //   required
-                />
-              </div>
+              </label>
+              <textarea
+                type="text"
+                id="form1Example2"
+                className={inputCss}
+                placeholder="Scrap Reason"
+                name="reason"
+                onChange={handleChange}
+                value={formData.reason}
+              //   required
+              />
+            </div>
 
-            
+
 
             <div className="text-center">
               <button

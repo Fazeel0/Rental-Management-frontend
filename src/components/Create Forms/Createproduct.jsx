@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const CreateProduct = () => {
@@ -140,13 +140,12 @@ const CreateProduct = () => {
               <select
                 onChange={handleBranchChange}
                 id="options"
-                class="p-2 border-2 rounded-md mb-3"
-              >
+                class="p-2 border-2 rounded-md mb-3">
                 <option></option>
-                {branches?.map((branch,index) => {
+                {branches?.map((branch, index) => {
                   return (
                     <>
-                      <option key={branch._id} value={branch._id}><span>{index+1}. </span>
+                      <option key={branch._id} value={branch._id}><span>{index + 1}. </span>
                         {branch.name}
                       </option>
                     </>

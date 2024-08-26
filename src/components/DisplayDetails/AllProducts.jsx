@@ -31,7 +31,7 @@ const AllProducts = () => {
     getAllProducts();
   }, [uichange]);
 
-  
+
 
   if (loading === true) {
     return (
@@ -94,15 +94,15 @@ const AllProducts = () => {
             <thead>
               <tr>
                 <th></th>
-                <th className="text-xl text-black">Name</th>
-                <th className="text-xl text-black">Price</th>
-                <th className="text-xl text-black">Alloted Quantity</th>
-                <th className="text-xl text-black">Availabe Quantity</th>
-                <th className="text-xl text-black">Rented Quantity</th>
-                <th className="text-xl text-black">Scrap Quantity</th>
-                <th className="text-xl text-black">Scrap Reason</th>
-                <th className="text-xl text-black">Update</th>
-                <th className="text-xl text-black">Delete</th>
+                <th className="text-base text-black">Name</th>
+                <th className="text-base text-black">Price</th>
+                <th className="text-base text-black">Alloted Quantity</th>
+                <th className="text-base text-black">Availabe Quantity</th>
+                <th className="text-base text-black">Rented Quantity</th>
+                <th className="text-base text-black">Scrap Quantity</th>
+                <th className="text-base text-black">Scrap Reason</th>
+                <th className="text-base text-black">Update</th>
+                <th className="text-base text-black">Delete</th>
               </tr>
             </thead>
             {products?.map((product, index) => {
