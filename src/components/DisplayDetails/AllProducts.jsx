@@ -8,7 +8,21 @@ const AllProducts = () => {
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState();
   const [uichange, setuichange] = useState(false);
+  const [scraps, setScraps] = useState([]);
   const navigate = useNavigate();
+
+  const getAllScraps = async (id) => {
+    try {
+      const response = await axios.get(`/product/${id}`);
+      if (response.data.success) {
+        setScraps(response.data.product.scrap);
+      }
+      console.log(scraps);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message);
+    }
+  };
 
   const getAllProducts = async () => {
     try {
@@ -94,15 +108,15 @@ const AllProducts = () => {
             <thead>
               <tr>
                 <th></th>
-                <th className="text-base text-black">Name</th>
-                <th className="text-base text-black">Price</th>
-                <th className="text-base text-black">Alloted Quantity</th>
-                <th className="text-base text-black">Availabe Quantity</th>
-                <th className="text-base text-black">Rented Quantity</th>
-                <th className="text-base text-black">Scrap Quantity</th>
-                <th className="text-base text-black">Scrap Reason</th>
-                <th className="text-base text-black">Update</th>
-                <th className="text-base text-black">Delete</th>
+
+                <th className="text-xl text-black">Name</th>
+                <th className="text-xl text-black">Price</th>
+                <th className="text-xl text-black">Alloted Quantity</th>
+                <th className="text-xl text-black">Availabe Quantity</th>
+                <th className="text-xl text-black">Rented Quantity</th>
+                <th className="text-xl text-black">Scrap</th>
+                <th className="text-xl text-black">Update</th>
+                <th className="text-xl text-black">Delete</th>
               </tr>
             </thead>
             {products?.map((product, index) => {
@@ -117,8 +131,15 @@ const AllProducts = () => {
                       <td>{product?.allotedQuantity}</td>
                       <td>{product?.availableQuantity}</td>
                       <td>{product?.rentedQuantity}</td>
-                      <td>{product.scrap?.quantity}</td>
-                      <td>{product.scrap?.reason}</td>
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          document.getElementById("my_modal_4").showModal();
+                          getAllScraps(product._id);
+                        }}
+                      >
+                        View Scraps
+                      </button>
                       <td>
                         <i
                           onClick={() =>
@@ -160,6 +181,49 @@ const AllProducts = () => {
               </div>
             </div>
           </div>
+
+          {/* You can open the modal using document.getElementById('ID').showModal() method */}
+
+          <dialog id="my_modal_4" className="modal">
+            <div className="modal-box w-11/12 max-w-5xl">
+              <h3 className="text-xl text-black">Scrap Details</h3>
+              {/* head */}
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th className="text-xl text-black">Quantity</th>
+                    <th className="text-xl text-black">Reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {scraps.length > 0 ? (
+                    scraps.map((scrap, index) => (
+                      <tr key={index}>
+                        <th>{index + 1}</th>
+                        <td>{scrap?.quantity}</td>
+                        <td>{scrap?.reason}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3">
+                        <h1 className="bg-red-300 p-3 rounded-lg text-2xl mt-2 mx-2 text-white">
+                          No scrap details available
+                        </h1>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+              <div className="modal-action">
+                <form method="dialog">
+                  {/* if there is a button, it will close the modal */}
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
+          </dialog>
         </div>
       )}
     </>

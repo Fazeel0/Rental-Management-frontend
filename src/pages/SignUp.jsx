@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react"
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const SignUp = () => {
@@ -85,7 +85,7 @@ const SignUp = () => {
                         <div className=" mb-4">
                             <div className={inputLabel}>
                                 <span className={inputLabel} >Already have Account?</span>
-                                <a className="hover:text-blue-500" href="/verify">LogIn</a>
+                                <Link className="hover:text-blue-500" to="/">LogIn</Link>
                             </div>
                         </div>
                         <div className="text-center">
