@@ -199,7 +199,7 @@ const AllProducts = () => {
                       <tr key={index}>
                         <th>{index + 1}</th>
                         <td>{scrap?.quantity}</td>
-                        <td>{scrap?.reason}</td>
+                        <td>{scrap?.reason}</td> 
                       </tr>
                     ))
                   ) : (
