@@ -43,7 +43,7 @@ const AllBranches = () => {
             let agree = window.confirm("Are you sure, want to delete this branch?");
 
             if (agree) {
-                const response = await axios.post(`/branch/delete/${id}`);
+                const response = await axios.delete(`/branch/delete/${id}`);
 
                 if (response.data.success) {
                     setuichange(!uichange);

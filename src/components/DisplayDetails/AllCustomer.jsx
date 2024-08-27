@@ -62,7 +62,11 @@ const AllCustomer = () => {
     document.getElementById("confirmDialog").classList.add("hidden");
   }
 
+
+
+
   if (loading === true) return <Loader />;
+
   return (
     <>
       {!customers ? (
@@ -80,6 +84,7 @@ const AllCustomer = () => {
                 <th className="py-2 px-4 border-b text-left">Phone Number</th>
                 <th className="py-2 px-4 border-b text-left">Address</th>
                 <th className="py-2 px-4 border-b text-left">Created At</th>
+                <th className="py-2 px-4 border-b text-left">Action</th>
                 <th className="py-2 px-4 border-b text-left">Update</th>
                 <th className="py-2 px-4 border-b text-left">Delete</th>
               </tr>
@@ -93,6 +98,9 @@ const AllCustomer = () => {
                   <td className="py-2 px-4 border-b">{customer.address}</td>
                   <td className="py-2 px-4 border-b">
                     {new Date(customer.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    <button onClick={() => navigate(`/rental/create/${customer._id}`)} className="btn btn-primary text-white">Give Rent</button>
                   </td>
                   <td>
                     <i
@@ -134,7 +142,7 @@ const AllCustomer = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div >
       )}
     </>
   );

@@ -9,6 +9,7 @@ const AllProducts = () => {
   const [loading, setLoading] = useState();
   const [uichange, setuichange] = useState(false);
   const [scraps, setScraps] = useState([]);
+  const [totalScrap, settotalScrap] = useState();
   const navigate = useNavigate();
 
   const getAllScraps = async (id) => {
@@ -17,12 +18,27 @@ const AllProducts = () => {
       if (response.data.success) {
         setScraps(response.data.product.scrap);
       }
-      console.log(scraps);
+
+      console.log({ scraps });
+
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message);
     }
   };
+
+  useEffect(() => {
+
+    let sum = 0;
+    scraps.forEach((scrap) => {
+      console.log("for each...");
+      sum = sum + scrap.quantity;
+    })
+    settotalScrap(sum);
+
+  }, [scraps]);
+
+
 
   const getAllProducts = async () => {
     try {
@@ -44,6 +60,8 @@ const AllProducts = () => {
   useEffect(() => {
     getAllProducts();
   }, [uichange]);
+
+
 
   if (loading === true) {
     return (
@@ -106,6 +124,7 @@ const AllProducts = () => {
             <thead>
               <tr>
                 <th></th>
+
                 <th className="text-xl text-black">Name</th>
                 <th className="text-xl text-black">Price</th>
                 <th className="text-xl text-black">Alloted Quantity</th>
@@ -183,7 +202,7 @@ const AllProducts = () => {
 
           <dialog id="my_modal_4" className="modal">
             <div className="modal-box w-11/12 max-w-5xl">
-              <h3 className="text-xl text-black">Scrap Details</h3>
+              <h3 className="text-xl text-black text-center font-bold">Scrap Details</h3>
               {/* head */}
               <table className="table">
                 <thead>
@@ -213,6 +232,8 @@ const AllProducts = () => {
                   )}
                 </tbody>
               </table>
+
+              <h1 className="mt-4"><span className="text-red-600 font-bold text-lg">Total Scrap:</span> <span className="font-bold">{totalScrap}</span></h1>
               <div className="modal-action">
                 <form method="dialog">
                   {/* if there is a button, it will close the modal */}
