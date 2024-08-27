@@ -1,155 +1,165 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useState } from "react"
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 // import axios from "axios";
 
 
 const CreateRental = () => {
 
-    const inputDiv = "mb-4 flex flex-row "
-    const inputLabel = "mb-2 mx-3 text-xl"
-    const inputCss = "p-2 border-2 rounded-md"
-
-    const [formData, setFormData] = useState({
-        startDate: "",
-        endDate: "",
-        cName: "",
-        pName: "",
-        quantity: "",
-        paidAmount: "",
-    })
-
-    const [error, setError] = useState("");
-    const [status, setStatus] = useState("");
+    const params = useParams();
+    const id = params.id;
 
 
-    //whenever user types in input fields, handles ==>
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+    const [products, setproducts] = useState();
+    const [branches, setbranches] = useState()
+    const [disable, setdisable] = useState(true);
 
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get("/branch/all");
+                if (response.data.success) {
+                    setbranches(response.data.branches);
+                }
 
-    };
+            } catch (error) {
+                console.log(error);
+                toast.error(error.response.data.message);
+            }
+        })();
+    }, []);
+
+
+
+    const [selectedBranch, setselectedBranch] = useState();
+    const changeBranch = (e) => {
+        let value = e.target.value;
+        setselectedBranch(value);
+        setdisable(false);
+    }
+
+    useEffect(() => {
+
+        (async () => {
+            try {
+                const response = await axios.post("/product/getProductsByBranch", { branch: selectedBranch });
+
+                if (response.data.success) {
+                    setproducts(response.data.products);
+                }
+
+            } catch (error) {
+                console.log(error);
+                setproducts([]);
+            }
+
+        })();
+
+    }, [selectedBranch]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
-        setStatus("");
-        console.log(formData);
+        let formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+
+            const response = await axios.post("/rental/add", data)
+            if (response.data.success) {
+                toast.success(response.data.message);
+            }
 
 
-
-
-
-
-
-
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
     }
-
-
 
 
     return (
         <>
-            <div className="container mx-auto flex justify-center items-center h-screen">
-                <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary   w-full h-3/4 flex flex-col justify-center items-center" id="login-box">
-                    <h1 className="text-center p-2 text-5xl font-bold m-6">Rent Product</h1>
+            <div>
+                <h1 className="text-2xl font-bold text-center mt-6 bg-blue-300 rounded-lg mx-4">Rent a Product</h1>
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-5 mx-10 mt-6">
+                    <div>
+                        <label htmlFor="startDate" className="font-bold">Rent Date:</label>
+                        <input id="startDate"
+                            type="date"
+                            name="startDate"
+                            placeholder="Rent date"
+                            className="input input-bordered input-info w-full" />
+                    </div>
+                    <div>
+                        <label htmlFor="startDate" className="font-bold">Return Date:</label>
+                        <input id="startDate"
+                            type="date"
+                            name="endDate"
+                            placeholder="Return date"
+                            className="input input-bordered input-info w-full" />
+                    </div>
+                    <div>
+                        <label htmlFor="paidAmount" className="font-bold">Paid Amount:</label>
+                        <input id="paidAmount"
+                            type="text"
+                            name="paidAmount"
+                            placeholder="Enter amount paid"
+                            className="input input-bordered input-info w-full" />
+                    </div>
+                    <div>
+                        <label htmlFor="quantity" className="font-bold">Quantity:</label>
+                        <input id="quantity"
+                            type="text"
+                            name="quantity"
+                            placeholder="Enter Rented quantity"
+                            className="input input-bordered input-info w-full" />
+                    </div>
 
-                    <form onSubmit={handleSubmit} className=" w-5/6 p-10">
-                        {error && <p className="">{error}</p>}
-                        {status && <p className="">{status}</p>}
+                    <div>
+                        <label htmlFor="customer" className="font-bold">Customer:</label>
+                        <input id="customer"
+                            type="text"
+                            name="customer"
+                            value={id}
+                            className="input input-bordered input-info w-full" readOnly />
+                    </div>
 
-                        <div className={inputDiv}>
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                Start Date
-                            </label>
-                            <input type="date" id="form1Example1" className={inputCss}
-                                placeholder="" name="startDate"
-                                onChange={handleChange}
-                                value={formData.name} required />
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                Return Date
-                            </label>
-                            <input type="date" id="form1Example1" className={inputCss}
-                                placeholder="" name="endDate"
-                                onChange={handleChange}
-                                value={formData.name} required />
-                        </div>
-                        <div className={inputDiv}>
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                Customer Name
-                            </label>
-                            <input type="text" id="form1Example1" className={inputCss}
-                                placeholder="Customer Name" name="cName"
-                                onChange={handleChange}
-                                value={formData.email} required />
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                Customer Id :-
-                            </label>
-                            <h3>0</h3>
-                        </div>
-                        <div className={inputDiv}>
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                Product Name
-                            </label>
-                            <input type="text" id="form1Example1" className={inputCss}
-                                placeholder="Customer Name" name="cName"
-                                onChange={handleChange}
-                                value={formData.email} required />
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                Product Id :-
-                            </label>
-                            <h3>0</h3>
-                        </div>
-                        <div className={inputDiv}>
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                Quantity
-                            </label>
-                            <input type="number" id="form1Example1" className={inputCss}
-                                placeholder="Quantity" name="quantity"
-                                onChange={handleChange}
-                                value={formData.quantity} required />
-                            <label className={inputLabel} htmlFor="form1Example1">
-                                In Stock :-
-                            </label>
-                            <h3>0</h3>
-                        </div>
-                        <div className={inputDiv}>
-                            <label className={inputLabel} htmlFor="form1Example2">
-                                Paid Amount
-                            </label>
-                            <input type="number" id="form1Example2" className={inputCss} placeholder="Paid Amount"
-                                name="paidAmount" onChange={handleChange}
-                                value={formData.password} required />
-                            <label className={inputLabel} htmlFor="form1Example2">
-                                Total Amount :-
-                            </label>
-                            <h3>0</h3>
-                        </div>
-                        <div className=" mb-4">
-                            <div className={inputLabel}>
-                                <span className={inputLabel} >Already Rented?</span>
-                                <a className="hover:text-blue-500" href="/">Update here</a>
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <button
-                                type="submit"
-                                className="bg-blue-400 text-white hover:text-blue-400 w-1/3 py-2 rounded-md bottom-2 hover:bg-slate-200"
-                            >
-                                Rent Product
-                            </button>
-                        </div>
-                    </form>
+                    <div>
+                        <label htmlFor="branch" className="font-bold">Branch:</label>
+                        <select onChange={changeBranch} name="branch" id="branch" className="select select-info w-full">
+                            <option disabled selected>Select Branch</option>
+                            {branches?.map((branch) => {
+                                return (
+                                    <>
+                                        <option value={branch?._id}>{branch?.name}</option>
+                                    </>
+                                )
+                            })}
+                        </select>
+                    </div>
 
-                </div>
+                    <div>
+                        <label htmlFor="product" className="font-bold">Product:</label>
+                        <select name="product" className="select select-info w-full" disabled={disable}>
+                            <option disabled selected>Select Product</option>
+                            {products?.map((product) => {
+                                return (
+                                    <>
+                                        <option value={product?._id}>{product?.name}</option>
+                                    </>
+                                )
+                            })}
 
+                        </select>
+                    </div>
 
+                    <button type="submit" className="btn btn-success">Submit</button>
+
+                </form>
             </div>
-
-
         </>
     )
 }

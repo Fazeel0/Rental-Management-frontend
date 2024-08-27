@@ -19,14 +19,12 @@ const Rental = () => {
                             <Outlet />
                         </div>
 
-
                     </div>
                     <div className="drawer-side">
                         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                         <ul className="menu bg-base-200 text-base-content min-h-full w-[16rem] p-4 space-y-4">
                             {/* Sidebar content here */}
-                            <li className='font-bold text-lg'><Link to={"/rental"}>Add Rental</Link></li>
-                            <li className='font-bold text-lg'><NavLink to={"/rental/update"}>Update Rental</NavLink></li>
+                            <li className='font-bold text-lg'><Link to={""}>All Rentals</Link></li>
                         </ul>
                     </div>
                 </div>

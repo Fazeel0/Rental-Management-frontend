@@ -49,7 +49,7 @@ const UpdateUser = () => {
 
         try {
 
-            const response = await axios.post(`/user/update/${id}`, filteredData);
+            const response = await axios.put(`/user/update/${id}`, filteredData);
             if (response.data.success) {
                 toast.success(response.data.message);
             }

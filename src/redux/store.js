@@ -12,5 +12,6 @@ export const store = configureStore({
     reducer: {
         user: persistReducer(persistConfig, userReducer),
 
-    },
+    }
+
 })

@@ -26,6 +26,7 @@ import AllUser from './components/DisplayDetails/AllUser';
 import CreateProduct from './components/Create Forms/CreateProduct';
 import AllProducts from './components/DisplayDetails/AllProducts';
 import ProductUpdate from './components/Update Forms/ProductUpdate';
+import AllRents from './components/DisplayDetails/AllRents';
 
 
 
@@ -59,16 +60,18 @@ function App() {
           </Route>
 
           <Route path='/rental' element={<Rental />}>
-            <Route index element={<CreateRental />} />
+            <Route index element={<AllRents />} />
+            <Route path='create/:id' element={<CreateRental />} />
             <Route path='update' element={<RentalUpdate />} />
 
           </Route>
 
           <Route path='/product' element={<Product />}>
-            <Route index element={<CreateProduct />}/>
-            <Route path='/product/update/:id' element={<ProductUpdate/>}/>
-            <Route path='all' element={<AllProducts/>} />
+            <Route index element={<CreateProduct />} />
+            <Route path='update/:id' element={<ProductUpdate />} />
+            <Route path='all' element={<AllProducts />} />
           </Route>
+
 
           <Route path='/users' element={<Users />}>
             <Route index element={<CreateUser />} />
