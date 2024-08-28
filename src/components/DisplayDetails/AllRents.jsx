@@ -5,7 +5,7 @@ import RentUpdate from '../Update Forms/RentUpdate';
 
 const AllRents = () => {
 
-    const [rental, setrental] = useState();
+    const [rentals, setrentals] = useState();
 
     useEffect(() => {
 
@@ -13,7 +13,7 @@ const AllRents = () => {
             try {
                 const response = await axios.get("/rental/all");
                 if (response.data.success) {
-                    setrental(response.data.rentalProducts);
+                    setrentals(response.data.rentalProducts);
                 }
             } catch (error) {
                 console.log(error);
@@ -24,11 +24,45 @@ const AllRents = () => {
 
     }, []);
 
-    console.log(rental);
+    console.log(rentals);
 
     return (
         <>
-        <RentUpdate/>
+            <div className="overflow-x-auto mt-5">
+                <table className="table">
+                    {/* head */}
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th className='text-base text-black'>Customer name</th>
+                            <th className='text-base text-black'>Product name</th>
+                            <th className='text-base text-black'>Balance Amount</th>
+                            <th className='text-base text-black'>Paid Amount</th>
+                            <th className='text-base text-black'>Quantity</th>
+                            <th className='text-base text-black'>More details</th>
+                        </tr>
+                    </thead>
+                    {rentals?.map((rent, index) => {
+                        return (
+                            <>
+                                <tbody>
+                                    {/* row 1 */}
+                                    <tr>
+                                        <td>{index + 1}</td>
+                                        <td>{rent?.customer?.name}</td>
+                                        <td>{rent?.product?.name}</td>
+                                        <td>{rent?.balanceAmount}</td>
+                                        <td>{rent?.paidAmount}</td>
+                                        <td>{rent?.quantity}</td>
+                                        <td><button className='btn btn-primary text-white'>More details</button></td>
+                                    </tr>
+                                </tbody>
+                            </>
+                        )
+                    })}
+
+                </table>
+            </div>
         </>
     )
 }
