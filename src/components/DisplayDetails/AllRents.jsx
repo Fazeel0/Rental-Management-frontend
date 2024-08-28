@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
+import RentUpdate from '../Update Forms/RentUpdate';
 
 const AllRents = () => {
 
@@ -27,7 +28,7 @@ const AllRents = () => {
 
     return (
         <>
-        
+        <RentUpdate/>
         </>
     )
 }
