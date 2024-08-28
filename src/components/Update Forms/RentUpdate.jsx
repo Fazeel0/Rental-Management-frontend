@@ -1,55 +1,62 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // import axios from "axios";
 
 const RentUpdate = () => {
   const params = useParams();
   const id = params.id;
+  const navigate = useNavigate();
   const [formData , setFormData] = useState({
     endDate : "",
     paidAmount : "",
-    returnQuantitiy : "",
+    returnedQuantity : "",
   });
 
-  let [rentalProduct, setRentalProduct] = useState();
-
+ 
+  const [rentalProduct, setRentalProduct] = useState();
 
   useEffect(() => {
-    (async () => {
+    const fetchRentalProduct = async () => {
       try {
-        const response = await axios.get(`/${id}`);
-        if(response){
-          // setRentalProduct(response.data.rentalProduct);
-          console.log(response.data.rentalProduct);
-          
+        const response = await axios.get(`/rental/${id}`);
+        if (response.data.success) {
+          setRentalProduct(response.data.rentalProduct);
+          console.log(rentalProduct);
         }
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message);
-        
       }
-    })();
-  }, []);
+    };
 
+    fetchRentalProduct();
+  }, []); 
 
-  useEffect(() => {
-    (async () => {
-     
-    })();
-  }, []);
+const handleChange = (e)=>{
+  const {name, value} = e.target;
+  setFormData({
+    ...formData,
+    [name]: value
+  })
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     // let formData = new FormData(e.target);
     // const data = Object.fromEntries(formData.entries());
+
+    console.log(formData);
+    
 
     try {
       const response = await axios.put(`/rental/update/${id}`, formData);
       if (response.data.success) {
         toast.success(response.data.message);
+        navigate(`/rental/`);
       }
     } catch (error) {
       console.log(error);
@@ -75,7 +82,7 @@ const RentUpdate = () => {
               id="customer"
               type="text"
               name="customer"
-              value={id}
+              value={rentalProduct?.customer?.name}
               className="input input-bordered input-info w-full"
               readOnly
             />
@@ -88,7 +95,7 @@ const RentUpdate = () => {
               id="product"
               type="text"
               name="product"
-              value={id}
+              value={rentalProduct?.product?.name}
               className="input input-bordered input-info w-full"
               readOnly
             />
@@ -98,10 +105,12 @@ const RentUpdate = () => {
               Date:
             </label>
             <input
-              id="startDate"
+              id="endDate"
               type="date"
-              name="startDate"
+              name="endDate"
               placeholder="Rent date"
+              onChange={handleChange}
+              value={formData.endDate}
               className="input input-bordered input-info w-full"
             />
           </div>
@@ -115,6 +124,8 @@ const RentUpdate = () => {
               type="text"
               name="paidAmount"
               placeholder="Enter amount paid"
+              onChange={handleChange}
+              value={formData.paidAmount}
               className="input input-bordered input-info w-full"
             />
           </div>
@@ -123,10 +134,12 @@ const RentUpdate = () => {
               Return Quantity:
             </label>
             <input
-              id="quantity"
+              id="returnedQuantity"
               type="text"
-              name="quantity"
+              name="returnedQuantity"
               placeholder="Enter Rented quantity"
+              onChange={handleChange}
+              value={formData.returnedQuantity}
               className="input input-bordered input-info w-full"
             />
           </div>
@@ -139,7 +152,7 @@ const RentUpdate = () => {
               id="balanceAmount"
               type="text"
               name="balanceAmount"
-              value={"-"}
+              value={rentalProduct?.balanceAmount}
               className="input input-bordered input-info w-full"
               readOnly
             />

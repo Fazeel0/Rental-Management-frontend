@@ -3,7 +3,6 @@ import './App.css';
 import Customer from './pages/Customer';
 import BranchUpdate from './components/Update Forms/BranchUpdate';
 import CustomerUpdate from './components/Update Forms/CustomerUpdate';
-import RentalUpdate from './components/Update Forms/RentalUpdate';
 import Rental from './pages/Rental';
 import Login from './pages/Login';
 import Navbar from './components/Navbar';
@@ -27,6 +26,7 @@ import CreateProduct from './components/Create Forms/CreateProduct';
 import AllProducts from './components/DisplayDetails/AllProducts';
 import ProductUpdate from './components/Update Forms/ProductUpdate';
 import AllRents from './components/DisplayDetails/AllRents';
+import RentUpdate from './components/Update Forms/RentUpdate';
 
 
 
@@ -62,7 +62,7 @@ function App() {
           <Route path='/rental' element={<Rental />}>
             <Route index element={<AllRents />} />
             <Route path='create/:id' element={<CreateRental />} />
-            <Route path='update' element={<RentalUpdate />} />
+            <Route path='update/:id' element={<RentUpdate />} />
 
           </Route>
 

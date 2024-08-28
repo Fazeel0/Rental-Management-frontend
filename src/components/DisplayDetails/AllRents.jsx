@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import RentUpdate from '../Update Forms/RentUpdate';
 
 const AllRents = () => {
 
     const [rentals, setrentals] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -55,6 +57,7 @@ const AllRents = () => {
                                         <td>{rent?.paidAmount}</td>
                                         <td>{rent?.quantity}</td>
                                         <td><button className='btn btn-primary text-white'>More details</button></td>
+                                        <td><button className='btn btn-primary text-white' onClick={()=>navigate(`/rental/update/${rent?._id}`)}>update</button></td>
                                     </tr>
                                 </tbody>
                             </>
