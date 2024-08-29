@@ -27,6 +27,7 @@ import CreateProduct from './components/Create Forms/CreateProduct';
 import AllProducts from './components/DisplayDetails/AllProducts';
 import ProductUpdate from './components/Update Forms/ProductUpdate';
 import AllRents from './components/DisplayDetails/AllRents';
+import RentalData from './pages/RentalData';
 
 
 
@@ -51,11 +52,14 @@ function App() {
           <Route path='/createBranch' element={<CreateBranch />} />
           <Route path='/updateBranch' element={<BranchUpdate />} />
 
+          
+          <Route path='/rental-data/:id' element={<RentalData />} />
+
           {/* layout for customer....... */}
           <Route path='/customer' element={<Customer />}>
-            <Route index element={<CreateCustomer />} />
+            <Route index element={<AllCustomer />} />
             <Route path='update/:id' element={<CustomerUpdate />} />
-            <Route path='all' element={<AllCustomer />} />
+            <Route path='add' element={<CreateCustomer />} />
 
           </Route>
 
@@ -67,22 +71,22 @@ function App() {
           </Route>
 
           <Route path='/product' element={<Product />}>
-            <Route index element={<CreateProduct />} />
+            <Route index element={<AllProducts />} />
             <Route path='update/:id' element={<ProductUpdate />} />
-            <Route path='all' element={<AllProducts />} />
+            <Route path='add' element={<CreateProduct />} />
           </Route>
 
 
           <Route path='/users' element={<Users />}>
-            <Route index element={<CreateUser />} />
+            <Route index element={<AllUser />} />
             <Route path='update/:id' element={<UpdateUser />} />
-            <Route path='all' element={<AllUser />} />
+            <Route path='add' element={<CreateUser />} />
           </Route>
 
           <Route path='/branch' element={<Branch />}>
-            <Route index element={<CreateBranch />} />
+            <Route index element={<AllBranches />} />
             <Route path='update/:id' element={<BranchUpdate />} />
-            <Route path='all' element={<AllBranches />} />
+            <Route path='add' element={<CreateBranch />} />
           </Route>
 
           <Route path='invoice' element={<Invoice />} />

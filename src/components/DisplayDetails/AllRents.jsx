@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const AllRents = () => {
 
     const [rentals, setrentals] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -53,7 +55,7 @@ const AllRents = () => {
                                         <td>{rent?.balanceAmount}</td>
                                         <td>{rent?.paidAmount}</td>
                                         <td>{rent?.quantity}</td>
-                                        <td><button className='btn btn-primary text-white'>More details</button></td>
+                                        <td><button onClick={() => navigate(`/rental-data/${rent._id}`)} className='btn btn-primary text-white'>More details</button></td>
                                     </tr>
                                 </tbody>
                             </>

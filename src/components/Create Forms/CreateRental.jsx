@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react"
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,7 +14,10 @@ const CreateRental = () => {
 
     const [products, setproducts] = useState();
     const [branches, setbranches] = useState()
-    const [disable, setdisable] = useState(true);
+    const [disableProduct, setDisableProduct] = useState(true);
+    const [disableQty, setDisableQty] = useState(true);
+    const hasMounted = useRef(false);
+
 
     useEffect(() => {
         (async () => {
@@ -34,30 +37,54 @@ const CreateRental = () => {
 
 
     const [selectedBranch, setselectedBranch] = useState();
-    const changeBranch = (e) => {
+    const changeBranch = async (e) => {
         let value = e.target.value;
         setselectedBranch(value);
-        setdisable(false);
+        setDisableProduct(false);
     }
 
     useEffect(() => {
 
-        (async () => {
-            try {
-                const response = await axios.post("/product/getProductsByBranch", { branch: selectedBranch });
+        if (hasMounted.current) {
+            (async () => {
+                try {
+                    const response = await axios.post("/product/getProductsByBranch", { branch: selectedBranch });
 
-                if (response.data.success) {
-                    setproducts(response.data.products);
+                    if (response.data.success) {
+                        setproducts(response.data.products);
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                    setproducts([]);
                 }
 
-            } catch (error) {
-                console.log(error);
-                setproducts([]);
-            }
+            })();
+        }
+        else {
+            hasMounted.current = true;
+        }
 
-        })();
+
 
     }, [selectedBranch]);
+
+
+    const [availableQty, setavailableQty] = useState();
+
+    const changeProduct = (e) => {
+        const productId = e.target.value;
+
+        let matchedProduct = {};
+        products.forEach((product) => {
+            if (product._id === productId) {
+                matchedProduct = product;
+            }
+        })
+        setavailableQty(matchedProduct.availableQuantity);
+        setDisableQty(false);
+    }
+
 
 
     const handleSubmit = async (e) => {
@@ -66,19 +93,16 @@ const CreateRental = () => {
         const data = Object.fromEntries(formData.entries());
 
         try {
-
             const response = await axios.post("/rental/add", data)
             if (response.data.success) {
                 toast.success(response.data.message);
             }
-
 
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
         }
     }
-
 
     return (
         <>
@@ -91,7 +115,7 @@ const CreateRental = () => {
                             type="date"
                             name="startDate"
                             placeholder="Rent date"
-                            className="input input-bordered input-info w-full" />
+                            className="input input-bordered input-info w-full" required />
                     </div>
                     <div>
                         <label htmlFor="startDate" className="font-bold">Return Date:</label>
@@ -99,7 +123,7 @@ const CreateRental = () => {
                             type="date"
                             name="endDate"
                             placeholder="Return date"
-                            className="input input-bordered input-info w-full" />
+                            className="input input-bordered input-info w-full" required />
                     </div>
                     <div>
                         <label htmlFor="paidAmount" className="font-bold">Paid Amount:</label>
@@ -107,16 +131,9 @@ const CreateRental = () => {
                             type="text"
                             name="paidAmount"
                             placeholder="Enter amount paid"
-                            className="input input-bordered input-info w-full" />
+                            className="input input-bordered input-info w-full" required />
                     </div>
-                    <div>
-                        <label htmlFor="quantity" className="font-bold">Quantity:</label>
-                        <input id="quantity"
-                            type="text"
-                            name="quantity"
-                            placeholder="Enter Rented quantity"
-                            className="input input-bordered input-info w-full" />
-                    </div>
+
 
                     <div>
                         <label htmlFor="customer" className="font-bold">Customer:</label>
@@ -129,7 +146,7 @@ const CreateRental = () => {
 
                     <div>
                         <label htmlFor="branch" className="font-bold">Branch:</label>
-                        <select onChange={changeBranch} name="branch" id="branch" className="select select-info w-full">
+                        <select onChange={changeBranch} name="branch" id="branch" className="select select-info w-full" required>
                             <option disabled selected>Select Branch</option>
                             {branches?.map((branch) => {
                                 return (
@@ -143,7 +160,7 @@ const CreateRental = () => {
 
                     <div>
                         <label htmlFor="product" className="font-bold">Product:</label>
-                        <select name="product" className="select select-info w-full" disabled={disable}>
+                        <select onChange={changeProduct} name="product" className="select select-info w-full" disabled={disableProduct} required>
                             <option disabled selected>Select Product</option>
                             {products?.map((product) => {
                                 return (
@@ -156,7 +173,23 @@ const CreateRental = () => {
                         </select>
                     </div>
 
-                    <button type="submit" className="btn btn-success">Submit</button>
+                    <div>
+                        <label htmlFor="quantity" className="font-bold">Quantity:</label>
+                        {availableQty ? <span className="text-green-700 font-bold"> In Stock {availableQty}</span> : null}
+                        <input id="quantity"
+                            type="number"
+                            name="quantity"
+                            max={availableQty}
+                            placeholder="Enter Rented quantity"
+                            className="input input-bordered input-info w-full" disabled={disableQty} required />
+                    </div>
+
+                    <div>
+                        <button type="submit" className="btn btn-success text-white font-bold mr-2">Submit</button>
+                        <button onClick={() => window.location.reload()} type="button" className="btn btn-error text-white font-bold">Reset</button>
+                    </div>
+
+
 
                 </form>
             </div>
