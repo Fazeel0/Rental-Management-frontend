@@ -57,7 +57,6 @@ const AllRents = () => {
                                         <td>{rent?.paidAmount}</td>
                                         <td>{rent?.quantity}</td>
                                         <td><button onClick={() => navigate(`/rental-data/${rent._id}`)} className='btn btn-primary text-white'>More details</button></td>
-                                        <td><button className='btn btn-primary text-white' onClick={()=>navigate(`/rental/update/${rent?._id}`)}>update</button></td>
                                     </tr>
                                 </tbody>
                             </>
