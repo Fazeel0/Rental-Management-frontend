@@ -39,7 +39,7 @@ const CustomerUpdate = () => {
         };
 
         fetchCustomerData();
-    }, [id]);
+    }, []);
 
     //whenever user types in input fields, handles ==>
     const handleChange = (e) => {
@@ -75,7 +75,7 @@ const CustomerUpdate = () => {
             toast.error(error.response.data.message);
         }
 
-        navigate("/customer/all");
+        navigate("/customer/");
     };
 
     return (

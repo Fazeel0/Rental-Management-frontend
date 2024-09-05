@@ -65,7 +65,7 @@ const CreateProduct = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate("/product/all")
+        navigate("/product/")
       }
     } catch (error) {
       console.log(error);

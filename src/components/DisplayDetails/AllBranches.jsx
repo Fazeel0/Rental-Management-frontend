@@ -1,123 +1,184 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useNavigation } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Loader from '../Loader';
-
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useNavigation } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loader from "../Loader";
 
 const AllBranches = () => {
+  const [branches, setBranches] = useState();
+  const [loading, setLoading] = useState();
+  const [uichange, setuichange] = useState(false);
+  const navigate = useNavigate();
 
+  const getAllBranches = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/branch/all");
+      setLoading(false);
+      if (response.data.success) {
+        setBranches(response.data.branches);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
-    const [branches, setBranches] = useState();
-    const [loading, setLoading] = useState();
-    const [uichange, setuichange] = useState(false);
-    const navigate = useNavigate();
+  useEffect(() => {
+    getAllBranches();
+  }, [uichange]);
 
+//   const deleteBranch = async (id) => {
+//     try {
+//       console.log("delete :", id);
+//       let agree = window.confirm("Are you sure, want to delete this branch?");
 
-    const getAllBranches = async () => {
+//       if (agree) {
+//         const response = await axios.delete(`/branch/delete/${id}`);
 
+//         if (response.data.success) {
+//           setuichange(!uichange);
+//           toast.success(response.data.message);
+//         }
+//       } else {
+//         return;
+//       }
+//     } catch (error) {
+//       console.log(error);
+//       toast.error(error.response.data.message);
+//     }
+//   };
 
-        try {
-            setLoading(true);
-            const response = await axios.get("/branch/all");
-            setLoading(false);
-            if (response.data.success) {
-                setBranches(response.data.branches);
-            }
+  // handling delete user
 
-        } catch (error) {
-            setLoading(false)
-            console.log(error);
-            toast.error(error.response.data.message);
+  const handleDelete = async (id) => {
+    try {
+      const isConfirmed = await showConfirmBox();
+
+      if (isConfirmed) {
+        setLoading(true);
+        const response = await axios.delete(`/branch/delete/${id}`);
+        if (response.data.success) {
+          setLoading(false);
+          toast.success(response.data.message);
+          setuichange(!uichange);
         }
-
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error while deleting", error);
+      setLoading(false);
+      toast.error(error.response?.data?.message || "Error deleting user");
     }
+  };
 
-    useEffect(() => {
-        getAllBranches();
-    }, [uichange])
+  function showConfirmBox() {
+    return new Promise((resolve) => {
+      console.log("Showing confirmation dialog");
+      document.getElementById("confirmDialog").classList.remove("hidden");
 
-    const deleteBranch = async (id) => {
-        try {
-            console.log("delete :", id);
-            let agree = window.confirm("Are you sure, want to delete this branch?");
+      const handleConfirm = (isConfirmed) => {
+        resolve(isConfirmed);
+        closeConfirmBox();
+      };
 
-            if (agree) {
-                const response = await axios.delete(`/branch/delete/${id}`);
+      document.getElementById("confirmYes").onclick = () => handleConfirm(true);
+      document.getElementById("confirmNo").onclick = () => handleConfirm(false);
+    });
+  }
 
-                if (response.data.success) {
-                    setuichange(!uichange);
-                    toast.success(response.data.message);
-                }
-            }
-            else {
-                return;
-            }
+  function closeConfirmBox() {
+    console.log("Closing confirmation dialog");
+    document.getElementById("confirmDialog").classList.add("hidden");
+  }
 
-
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        }
-    }
-
-
-    if (loading === true) {
-        return (
-            <>
-                <Loader />
-            </>
-        )
-    }
-
-
-
+  if (loading === true) {
     return (
+      <>
+        <Loader />
+      </>
+    );
+  }
+
+  return (
+    <>
+      {!branches ? (
+        <h1 className="bg-red-300 p-3 rounded-lg text-3xl mt-2 mx-2 text-white">
+          Branches not available
+        </h1>
+      ) : (
         <>
-            {
-                !branches ?
-                    <h1 className='bg-red-300 p-3 rounded-lg text-3xl mt-2 mx-2 text-white'>Branches not available</h1>
-                    :
-                    <>
-                        <div className="overflow-x-auto mt-5">
-                            <table className="table">
-                                {/* head */}
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th className='text-xl text-black'>Name</th>
-                                        <th className='text-xl text-black'>Location</th>
-                                        <th className='text-xl text-black'>Contact</th>
-                                        <th className='text-xl text-black'>Update</th>
-                                        <th className='text-xl text-black'>Delete</th>
-                                    </tr>
-                                </thead>
-                                {branches?.map((branch, index) => {
-                                    return (
-                                        <>
-                                            <tbody>
-                                                {/* row 1 */}
-                                                <tr>
-                                                    <th>{index + 1}</th>
-                                                    <td>{branch?.name}</td>
-                                                    <td>{branch?.location}</td>
-                                                    <td>{branch?.contact}</td>
-                                                    <td><i onClick={() => navigate(`/branch/update/${branch._id}`)} class="fa-solid fa-pen-to-square text-green-800 cursor-pointer"></i></td>
-                                                    <td><i onClick={() => deleteBranch(branch._id)} class="fa-solid fa-trash text-red-600 cursor-pointer"></i></td>
-                                                </tr>
-                                            </tbody>
-                                        </>
-                                    )
-                                })}
-
-                            </table>
-                        </div>
-                    </>
-
-            }
-
+          <div className="overflow-x-auto mt-5">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th className="text-xl text-black">Name</th>
+                  <th className="text-xl text-black">Location</th>
+                  <th className="text-xl text-black">Contact</th>
+                  <th className="text-xl text-black">Update</th>
+                  <th className="text-xl text-black">Delete</th>
+                </tr>
+              </thead>
+              {branches?.map((branch, index) => {
+                return (
+                  <>
+                    <tbody>
+                      {/* row 1 */}
+                      <tr>
+                        <th>{index + 1}</th>
+                        <td>{branch?.name}</td>
+                        <td>{branch?.location}</td>
+                        <td>{branch?.contact}</td>
+                        <td>
+                          <i
+                            onClick={() =>
+                              navigate(`/branch/update/${branch._id}`)
+                            }
+                            class="fa-solid fa-pen-to-square text-green-800 cursor-pointer"
+                          ></i>
+                        </td>
+                        <td>
+                          <i
+                            onClick={() => handleDelete(branch._id)}
+                            class="fa-solid fa-trash text-red-600 cursor-pointer"
+                          ></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </>
+                );
+              })}
+            </table>
+          </div>
         </>
-    )
-}
+      )}
+
+      {/* confirmation box */}
+      <div id="confirmDialog" class="absolute  top-0 right-0 hidden ">
+        <div class="bg-gray-300 p-6 rounded-lg shadow-lg text-center">
+          <h2 class="text-xl font-semibold mb-4">Confirmation</h2>
+          <p class="mb-6">Are you sure you want to delete?</p>
+          <div class="flex justify-center gap-4">
+            <button
+              id="confirmYes"
+              class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Yes
+            </button>
+            <button
+              id="confirmNo"
+              class="btn btn-primary text-white px-4 py-2 rounded hover:bg-gray-400"
+            >
+              No
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default AllBranches;

@@ -49,7 +49,7 @@ const RentalData = () => {
               Paid Amount: <span>{rental?.paidAmount}</span>
             </h1>
             <h1>
-              Balance Amount: <span>{rental?.balanceAmount}</span>
+              Balance Amount: <span>{rental?.returnedProductAmount-rental?.paidAmount}</span>
             </h1>
             <h1>
               Total Price: <span>{rental?.totalPrice}</span>
@@ -57,6 +57,7 @@ const RentalData = () => {
             <h1>
               Rental Status: <span>{rental?.rentalStatus}</span>
             </h1>
+            <h1>Returned Product price : <span>{rental?.returnedProductAmount}</span></h1>
           </div>
         </div>
         <div className="w-1/3">
@@ -91,7 +92,7 @@ const RentalData = () => {
       </div>
       <div className="text-center">
         {
-            rental?.balanceAmount > 0 || rental?.rentalStatus === "BORROWED" ? (
+            (rental?.returnedProductAmount - rental?.paidAmount) > 0 || rental?.rentalStatus === "BORROWED" ? (
 <button
           className=" btn btn-primary text-white"
           onClick={() => navigate(`/rental/update/${id}`)}

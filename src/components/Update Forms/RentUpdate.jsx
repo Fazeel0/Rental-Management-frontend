@@ -131,7 +131,7 @@ const handleChange = (e)=>{
           </div>
           <div>
             <label htmlFor="quantity" className="font-bold">
-              Return Quantity:
+              Return Quantity: <span className="text-red-500">{rentalProduct?.quantity}</span>
             </label>
             <input
               id="returnedQuantity"
