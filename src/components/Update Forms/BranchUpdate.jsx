@@ -76,7 +76,7 @@ const BranchUpdate = () => {
 
             if (response.data.success) {
                 toast.success(response.data.message);
-                navigate('/branch/all')
+                navigate('/branch/')
             }
 
         } catch (error) {
