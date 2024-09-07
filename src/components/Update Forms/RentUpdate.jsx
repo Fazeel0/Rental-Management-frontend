@@ -1,21 +1,23 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // import axios from "axios";
 
 const RentUpdate = () => {
+
   const params = useParams();
   const id = params.id;
+
   const navigate = useNavigate();
-  const [formData , setFormData] = useState({
-    endDate : "",
-    paidAmount : "",
-    returnedQuantity : "",
+  const [formData, setFormData] = useState({
+    endDate: "",
+    paidAmount: "",
+    returnedQuantity: "",
   });
 
- 
+
   const [rentalProduct, setRentalProduct] = useState();
 
   useEffect(() => {
@@ -33,24 +35,24 @@ const RentUpdate = () => {
     };
 
     fetchRentalProduct();
-  }, []); 
+  }, []);
 
-const handleChange = (e)=>{
-  const {name, value} = e.target;
-  setFormData({
-    ...formData,
-    [name]: value
-  })
-}
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // let formData = new FormData(e.target);
     // const data = Object.fromEntries(formData.entries());
 
     console.log(formData);
-    
+
 
     try {
       const response = await axios.put(`/rental/update/${id}`, formData);
@@ -72,8 +74,7 @@ const handleChange = (e)=>{
         </h1>
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-2 gap-5 mx-10 mt-6"
-        >
+          className="grid grid-cols-2 gap-5 mx-10 mt-6">
           <div>
             <label htmlFor="customer" className="font-bold">
               Customer:
@@ -158,9 +159,9 @@ const handleChange = (e)=>{
             />
           </div>
 
-         
 
-          <button type="submit" className="btn btn-success">
+
+          <button type="submit" className="btn btn-success text-white font-bold">
             Update
           </button>
         </form>

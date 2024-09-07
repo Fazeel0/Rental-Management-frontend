@@ -97,7 +97,7 @@ const AllCustomer = () => {
                   <td className="py-2 px-4 border-b">{customer.phoneNo}</td>
                   <td className="py-2 px-4 border-b">{customer.address}</td>
                   <td className="py-2 px-4 border-b">
-                    {new Date(customer.createdAt).toLocaleDateString()}
+                    {new Date(customer.createdAt).toLocaleDateString("en-GB")}
                   </td>
                   <td className="py-2 px-4 border-b">
                     <button onClick={() => navigate(`/rental/create/${customer._id}`)} className="btn btn-primary text-white">Give Rent</button>
