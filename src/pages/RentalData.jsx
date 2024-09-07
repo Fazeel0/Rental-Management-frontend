@@ -17,10 +17,7 @@ const RentalData = () => {
         const response = await axios.get(`/rental/${id}`);
         if (response.data.success) {
           setRental(response.data.rentalProduct);
-<<<<<<< HEAD
-=======
           // toast.success(response.data.message);
->>>>>>> 04e9e5e13c309064b4292eabe7bf3ca30fc54321
           console.log(rental);
         }
       } catch (error) {
