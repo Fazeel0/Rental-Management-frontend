@@ -36,12 +36,12 @@ const AllRents = () => {
                     <thead>
                         <tr>
                             <th></th>
-                            <th className='text-base text-black'>Customer name</th>
-                            <th className='text-base text-black'>Product name</th>
-                            <th className='text-base text-black'>Balance Amount</th>
-                            <th className='text-base text-black'>Paid Amount</th>
-                            <th className='text-base text-black'>Quantity</th>
-                            <th className='text-base text-black'>More details</th>
+                            <th className='text-xl font-bold text-black'>Customer name</th>
+                            <th className='text-xl font-bold text-black'>no of Products</th>
+                            <th className='text-xl font-bold text-black'>Balance Amount</th>
+                            <th className='text-xl font-bold text-black'>Paid Amount</th>
+                            <th className='text-xl font-bold text-black'>Quantity</th>
+                            <th className='text-xl font-bold text-black'>More details</th>
                         </tr>
                     </thead>
                     {rentals?.map((rent, index) => {
@@ -50,13 +50,13 @@ const AllRents = () => {
                                 <tbody>
                                     {/* row 1 */}
                                     <tr>
-                                        <td>{index + 1}</td>
-                                        <td>{rent?.customer?.name}</td>
-                                        <td>{rent?.product?.name}</td>
-                                        <td>{rent?.returnedProductAmount - rent?.paidAmount}</td>
-                                        <td>{rent?.paidAmount}</td>
-                                        <td>{rent?.quantity}</td>
-                                        <td><button onClick={() => navigate(`/rental-data/${rent._id}`)} className='btn btn-primary text-white'>More details</button></td>
+                                        <td className="text-xl text-black font-bold">{index + 1}</td>
+                                        <td className="text-xl text-blue-700 font-bold">{rent?.customer?.name}</td>
+                                        <td className="text-xl text-blue-700 font-bold">{rent?.products?.length}</td>
+                                        <td className="text-xl text-blue-700 font-bold">{rent?.balanceAmount}</td>
+                                        <td className="text-xl text-blue-700 font-bold">{rent?.paidAmount}</td>
+                                        <td className="text-xl text-blue-700 font-bold">{rent?.totalQuantity}</td>
+                                        <td className="text-xl text-blue-700 font-bold"><button onClick={() => navigate(`/rental-data/${rent._id}`)} className='btn btn-primary text-white'>More details</button></td>
                                     </tr>
                                 </tbody>
                             </>

@@ -125,10 +125,10 @@ const AllUser = () => {
                     {user._id === loggedInUser._id ? (
                       <>
                         <tr className="bg-green-200">
-                          <th>{index + 1}</th>
-                          <th>{user?.name}</th>
-                          <td>{user?.email}</td>
-                          <td>{user?.roles}</td>
+                          <th className="text-xl text-black font-bold">{index + 1}</th>
+                          <th className="text-xl text-blue-700 font-bold">{user?.name}</th>
+                          <td className="text-xl text-blue-700 font-bold">{user?.email}</td>
+                          <td className="text-xl text-blue-700 font-bold">{user?.roles}</td>
                           <td>
                             <i
                               onClick={() =>
@@ -141,10 +141,10 @@ const AllUser = () => {
                       </>
                     ) : (
                       <tr>
-                        <th>{index + 1}</th>
-                        <th>{user?.name}</th>
-                        <td>{user?.email}</td>
-                        <td>{user?.roles}</td>
+                        <th className="text-xl text-black font-bold">{index + 1}</th>
+                        <th className="text-xl text-blue-700 font-bold">{user?.name}</th>
+                        <td className="text-xl text-blue-700 font-bold">{user?.email}</td>
+                        <td className="text-xl text-blue-700 font-bold">{user?.roles}</td>
                         <td>
                           <i
                             onClick={() =>

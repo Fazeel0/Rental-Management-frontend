@@ -128,10 +128,10 @@ const AllBranches = () => {
                     <tbody>
                       {/* row 1 */}
                       <tr>
-                        <th>{index + 1}</th>
-                        <td>{branch?.name}</td>
-                        <td>{branch?.location}</td>
-                        <td>{branch?.contact}</td>
+                        <th className="text-xl text-black font-bold">{index + 1}</th>
+                        <td className="text-xl text-blue-700 font-bold">{branch?.name}</td>
+                        <td className="text-xl text-blue-700 font-bold">{branch?.location}</td>
+                        <td className="text-xl text-blue-700 font-bold">{branch?.contact}</td>
                         <td>
                           <i
                             onClick={() =>

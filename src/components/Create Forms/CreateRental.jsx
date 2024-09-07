@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
 import { useState } from "react"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
 const CreateRental = () => {
 
+    const navigate = useNavigate();
     const params = useParams();
     const id = params.id;
 
@@ -95,11 +96,13 @@ const CreateRental = () => {
         })
 
         data = { ...data, products: rows, totalQuantity };
+        
 
         try {
             const response = await axios.post("/rental/add", data)
             if (response.data.success) {
                 toast.success(response.data.message);
+                navigate("/rental")
             }
 
         } catch (error) {

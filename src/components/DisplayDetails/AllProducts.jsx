@@ -141,12 +141,12 @@ const AllProducts = () => {
                   <tbody>
                     {/* row 1 */}
                     <tr>
-                      <th>{index + 1}</th>
-                      <td>{product?.name}</td>
-                      <td>{product?.price}</td>
-                      <td>{product?.allotedQuantity}</td>
-                      <td>{product?.availableQuantity}</td>
-                      <td>{product?.rentedQuantity}</td>
+                      <th className="text-xl text-black font-bold">{index + 1}</th>
+                      <td className="text-xl text-blue-700 font-bold">{product?.name}</td>
+                      <td className="text-xl text-blue-700 font-bold">{product?.price}</td>
+                      <td className="text-xl text-blue-700 font-bold">{product?.allotedQuantity}</td>
+                      <td className="text-xl text-blue-700 font-bold">{product?.availableQuantity}</td>
+                      <td className="text-xl text-blue-700 font-bold">{product?.rentedQuantity}</td>
                       <button
                         className="btn btn-primary text-white"
                         onClick={() => {
@@ -216,9 +216,9 @@ const AllProducts = () => {
                   {scraps.length > 0 ? (
                     scraps.map((scrap, index) => (
                       <tr key={index}>
-                        <th>{index + 1}</th>
-                        <td>{scrap?.quantity}</td>
-                        <td>{scrap?.reason}</td> 
+                        <th className="text-xl text-black font-bold">{index + 1}</th>
+                        <td className="text-xl text-blue-700 font-bold">{scrap?.quantity}</td>
+                        <td className="text-xl text-blue-700 font-bold">{scrap?.reason}</td> 
                       </tr>
                     ))
                   ) : (
@@ -233,7 +233,7 @@ const AllProducts = () => {
                 </tbody>
               </table>
 
-              <h1 className="mt-4"><span className="text-red-600 font-bold text-lg">Total Scrap:</span> <span className="font-bold">{totalScrap}</span></h1>
+              <h1 className="mt-4"><span className="text-red-600 font-bold text-lg">Total Scrap:</span> <span className="font-bold text-xl">{totalScrap}</span></h1>
               <div className="modal-action">
                 <form method="dialog">
                   <button className="btn btn-primary text-white">Close</button>

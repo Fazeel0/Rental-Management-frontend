@@ -78,24 +78,24 @@ const AllCustomer = () => {
           <table className="table">
             <thead>
               <tr>
-                <th className="text-base text-black"></th>
-                <th className="text-base text-black">Name</th>
-                <th className="text-base text-black">Phone Number</th>
-                <th className="text-base text-black">Address</th>
-                <th className="text-base text-black">Created At</th>
-                <th className="text-base text-black">Action</th>
-                <th className="text-base text-black">Update</th>
-                <th className="text-base text-black">Delete</th>
+                <th className="text-xl font-bold text-black"></th>
+                <th className="text-xl font-bold text-black">Name</th>
+                <th className="text-xl font-bold text-black">Phone Number</th>
+                <th className="text-xl font-bold text-black">Address</th>
+                <th className="text-xl font-bold text-black">Created At</th>
+                <th className="text-xl font-bold text-black">Action</th>
+                <th className="text-xl font-bold text-black">Update</th>
+                <th className="text-xl font-bold text-black">Delete</th>
               </tr>
             </thead>
             <tbody>
               {customers.map((customer, index) => (
                 <tr key={customer._id}>
-                  <th>{index + 1}</th>
-                  <td className="py-2 px-4 border-b">{customer.name}</td>
-                  <td className="py-2 px-4 border-b">{customer.phoneNo}</td>
-                  <td className="py-2 px-4 border-b">{customer.address}</td>
-                  <td className="py-2 px-4 border-b">
+                  <th className="text-xl text-black font-bold">{index + 1}</th>
+                  <td className="text-xl text-blue-700 font-bold">{customer.name}</td>
+                  <td className="text-xl text-blue-700 font-bold">{customer.phoneNo}</td>
+                  <td className="text-xl text-blue-700 font-bold">{customer.address}</td>
+                  <td className="text-xl text-blue-700 font-bold">
                     {new Date(customer.createdAt).toLocaleDateString("en-GB")}
                   </td>
                   <td className="py-2 px-4 border-b">
