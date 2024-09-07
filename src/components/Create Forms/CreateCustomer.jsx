@@ -44,7 +44,7 @@ const CreateCustomer = () => {
 
                 console.log(response.data.customer._id);
 
-                navigate('/customer/all')
+                navigate('/customer/')
 
             }
 

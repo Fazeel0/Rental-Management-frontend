@@ -53,7 +53,7 @@ const AllRents = () => {
                                         <td>{index + 1}</td>
                                         <td>{rent?.customer?.name}</td>
                                         <td>{rent?.product?.name}</td>
-                                        <td>{rent?.balanceAmount}</td>
+                                        <td>{rent?.returnedProductAmount - rent?.paidAmount}</td>
                                         <td>{rent?.paidAmount}</td>
                                         <td>{rent?.quantity}</td>
                                         <td><button onClick={() => navigate(`/rental-data/${rent._id}`)} className='btn btn-primary text-white'>More details</button></td>

@@ -74,19 +74,18 @@ const AllCustomer = () => {
           Products not available
         </h1>
       ) : (
-        <div className="container mx-auto m-5">
-          <h2 className="text-2xl font-bold mb-4">Customer List</h2>
-          <table className="min-w-full bg-white border-2 ">
+        <div className="overflow-x-auto mt-5">
+          <table className="table">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b text-left"></th>
-                <th className="py-2 px-4 border-b text-left">Name</th>
-                <th className="py-2 px-4 border-b text-left">Phone Number</th>
-                <th className="py-2 px-4 border-b text-left">Address</th>
-                <th className="py-2 px-4 border-b text-left">Created At</th>
-                <th className="py-2 px-4 border-b text-left">Action</th>
-                <th className="py-2 px-4 border-b text-left">Update</th>
-                <th className="py-2 px-4 border-b text-left">Delete</th>
+                <th className="text-base text-black"></th>
+                <th className="text-base text-black">Name</th>
+                <th className="text-base text-black">Phone Number</th>
+                <th className="text-base text-black">Address</th>
+                <th className="text-base text-black">Created At</th>
+                <th className="text-base text-black">Action</th>
+                <th className="text-base text-black">Update</th>
+                <th className="text-base text-black">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -123,7 +122,7 @@ const AllCustomer = () => {
 
           {/* confirmation box */}
           <div id="confirmDialog" class="absolute  top-0 right-0 hidden ">
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div class="bg-gray-300 p-6 rounded-lg shadow-lg text-center">
               <h2 class="text-xl font-semibold mb-4">Confirmation</h2>
               <p class="mb-6">Are you sure you want to delete?</p>
               <div class="flex justify-center gap-4">
@@ -135,7 +134,7 @@ const AllCustomer = () => {
                 </button>
                 <button
                   id="confirmNo"
-                  class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                  class="btn btn-primary text-white px-4 py-2 rounded hover:bg-gray-400"
                 >
                   No
                 </button>

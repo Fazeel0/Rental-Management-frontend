@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const UpdateUser = () => {
 
     const params = useParams();
     const id = params.id;
+    const navigate = useNavigate();
 
     const [user, setuser] = useState();
 
@@ -52,6 +53,7 @@ const UpdateUser = () => {
             const response = await axios.put(`/user/update/${id}`, filteredData);
             if (response.data.success) {
                 toast.success(response.data.message);
+                navigate("/users")
             }
 
         } catch (error) {
