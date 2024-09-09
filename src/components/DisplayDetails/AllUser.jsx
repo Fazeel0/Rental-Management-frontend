@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 const AllUser = () => {
   const [users, setusers] = useState();
+  const [allUsers, setAllUsers] = useState();
   const [loading, setLoading] = useState();
   const [uichange, setuichange] = useState();
 
@@ -21,6 +22,7 @@ const AllUser = () => {
       setLoading(false);
       if (response.data.success) {
         setusers(response.data.users);
+        setAllUsers(response.data.users);
       }
     } catch (error) {
       setLoading(false);
@@ -32,6 +34,19 @@ const AllUser = () => {
   useEffect(() => {
     getAllUsers();
   }, [uichange]);
+
+  const handleChange = (e) => {
+    let s = e.target.value.toLowerCase();
+
+    if (s === "") {
+      setAllUsers(users);
+    } else {
+      const filteredCustomers = users.filter((user) => {
+        return user.name.toLowerCase().includes(s);
+      });
+      setAllUsers(filteredCustomers);
+    }
+  };
 
   // const deleteUser = async (id) => {
   //     try {
@@ -104,6 +119,14 @@ const AllUser = () => {
     <>
       <div>
         <div className="overflow-x-auto mt-5">
+          <div className="flex justify-center">
+            <input
+              type="search"
+              placeholder="Search"
+              onChange={handleChange}
+              className="w-[20vw] h-12 p-4 rounded-lg border-2 border-blue-600 focus:border-none"
+            />
+          </div>
           <table className="table">
             {/* head */}
             <thead>
@@ -116,7 +139,7 @@ const AllUser = () => {
                 <th className="text-xl text-black">Delete</th>
               </tr>
             </thead>
-            {users?.map((user, index) => {
+            {allUsers?.map((user, index) => {
               return (
                 <>
                   <tbody>
@@ -125,10 +148,18 @@ const AllUser = () => {
                     {user._id === loggedInUser._id ? (
                       <>
                         <tr className="bg-green-200">
-                          <th className="text-xl text-black font-bold">{index + 1}</th>
-                          <th className="text-xl text-blue-700 font-bold">{user?.name}</th>
-                          <td className="text-xl text-blue-700 font-bold">{user?.email}</td>
-                          <td className="text-xl text-blue-700 font-bold">{user?.roles}</td>
+                          <th className="text-xl text-black font-bold">
+                            {index + 1}
+                          </th>
+                          <th className="text-xl text-blue-700 font-bold">
+                            {user?.name}
+                          </th>
+                          <td className="text-xl text-blue-700 font-bold">
+                            {user?.email}
+                          </td>
+                          <td className="text-xl text-blue-700 font-bold">
+                            {user?.roles}
+                          </td>
                           <td>
                             <i
                               onClick={() =>
@@ -141,10 +172,18 @@ const AllUser = () => {
                       </>
                     ) : (
                       <tr>
-                        <th className="text-xl text-black font-bold">{index + 1}</th>
-                        <th className="text-xl text-blue-700 font-bold">{user?.name}</th>
-                        <td className="text-xl text-blue-700 font-bold">{user?.email}</td>
-                        <td className="text-xl text-blue-700 font-bold">{user?.roles}</td>
+                        <th className="text-xl text-black font-bold">
+                          {index + 1}
+                        </th>
+                        <th className="text-xl text-blue-700 font-bold">
+                          {user?.name}
+                        </th>
+                        <td className="text-xl text-blue-700 font-bold">
+                          {user?.email}
+                        </td>
+                        <td className="text-xl text-blue-700 font-bold">
+                          {user?.roles}
+                        </td>
                         <td>
                           <i
                             onClick={() =>

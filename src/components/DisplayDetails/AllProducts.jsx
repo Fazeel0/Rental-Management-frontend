@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
 
 const AllProducts = () => {
   const [products, setProducts] = useState();
+  const [allProducts, setAllProducts] = useState();
   const [loading, setLoading] = useState();
   const [uichange, setuichange] = useState(false);
   const [scraps, setScraps] = useState([]);
@@ -20,7 +21,6 @@ const AllProducts = () => {
       }
 
       console.log({ scraps });
-
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message);
@@ -28,14 +28,12 @@ const AllProducts = () => {
   };
 
   useEffect(() => {
-
     let sum = 0;
     scraps.forEach((scrap) => {
       console.log("for each...");
       sum = sum + scrap.quantity;
-    })
+    });
     settotalScrap(sum);
-
   }, [scraps]);
 
 
@@ -49,6 +47,7 @@ const AllProducts = () => {
       setLoading(false);
       if (response.data.success) {
         setProducts(response.data.products);
+        setAllProducts(response.data.products);
       }
     } catch (error) {
       setLoading(false);
@@ -61,7 +60,16 @@ const AllProducts = () => {
     getAllProducts();
   }, [uichange]);
 
+  const handleChange = (e)=>{
+    let s = e.target.value.toLowerCase();
 
+    const filteredProduct = products.filter((product)=>{
+      return product.name.toLowerCase().includes(s);
+    })
+
+    setAllProducts(filteredProduct);
+
+  }
 
   if (loading === true) {
     return (
@@ -119,6 +127,14 @@ const AllProducts = () => {
         </h1>
       ) : (
         <div className="overflow-x-auto mt-5">
+          <div className="flex justify-center">
+            <input
+              type="search"
+              placeholder="Search"
+              onChange={handleChange}
+              className="w-[20vw] h-12 p-4 rounded-lg border-2 border-blue-600 focus:border-none"
+            />
+          </div>
           <table className="table">
             {/* head */}
             <thead>
@@ -135,18 +151,30 @@ const AllProducts = () => {
                 <th className="text-xl text-black">Delete</th>
               </tr>
             </thead>
-            {products?.map((product, index) => {
+            {allProducts?.map((product, index) => {
               return (
                 <>
                   <tbody>
                     {/* row 1 */}
                     <tr>
-                      <th className="text-xl text-black font-bold">{index + 1}</th>
-                      <td className="text-xl text-blue-700 font-bold">{product?.name}</td>
-                      <td className="text-xl text-blue-700 font-bold">{product?.price}</td>
-                      <td className="text-xl text-blue-700 font-bold">{product?.allotedQuantity}</td>
-                      <td className="text-xl text-blue-700 font-bold">{product?.availableQuantity}</td>
-                      <td className="text-xl text-blue-700 font-bold">{product?.rentedQuantity}</td>
+                      <th className="text-xl text-black font-bold">
+                        {index + 1}
+                      </th>
+                      <td className="text-xl text-blue-700 font-bold">
+                        {product?.name}
+                      </td>
+                      <td className="text-xl text-blue-700 font-bold">
+                        {product?.price}
+                      </td>
+                      <td className="text-xl text-blue-700 font-bold">
+                        {product?.allotedQuantity}
+                      </td>
+                      <td className="text-xl text-blue-700 font-bold">
+                        {product?.availableQuantity}
+                      </td>
+                      <td className="text-xl text-blue-700 font-bold">
+                        {product?.rentedQuantity}
+                      </td>
                       <button
                         className="btn btn-primary text-white"
                         onClick={() => {
@@ -202,7 +230,9 @@ const AllProducts = () => {
 
           <dialog id="my_modal_4" className="modal">
             <div className="modal-box w-11/12 max-w-5xl">
-              <h3 className="text-xl text-black text-center font-bold">Scrap Details</h3>
+              <h3 className="text-xl text-black text-center font-bold">
+                Scrap Details
+              </h3>
               {/* head */}
               <table className="table">
                 <thead>
@@ -216,9 +246,15 @@ const AllProducts = () => {
                   {scraps.length > 0 ? (
                     scraps.map((scrap, index) => (
                       <tr key={index}>
-                        <th className="text-xl text-black font-bold">{index + 1}</th>
-                        <td className="text-xl text-blue-700 font-bold">{scrap?.quantity}</td>
-                        <td className="text-xl text-blue-700 font-bold">{scrap?.reason}</td> 
+                        <th className="text-xl text-black font-bold">
+                          {index + 1}
+                        </th>
+                        <td className="text-xl text-blue-700 font-bold">
+                          {scrap?.quantity}
+                        </td>
+                        <td className="text-xl text-blue-700 font-bold">
+                          {scrap?.reason}
+                        </td>
                       </tr>
                     ))
                   ) : (
@@ -233,7 +269,12 @@ const AllProducts = () => {
                 </tbody>
               </table>
 
-              <h1 className="mt-4"><span className="text-red-600 font-bold text-lg">Total Scrap:</span> <span className="font-bold text-xl">{totalScrap}</span></h1>
+              <h1 className="mt-4">
+                <span className="text-red-600 font-bold text-lg">
+                  Total Scrap:
+                </span>{" "}
+                <span className="font-bold text-xl">{totalScrap}</span>
+              </h1>
               <div className="modal-action">
                 <form method="dialog">
                   <button className="btn btn-primary text-white">Close</button>

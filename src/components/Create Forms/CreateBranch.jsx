@@ -8,7 +8,7 @@ const CreateBranch = () => {
 
     const inputDiv = "mb-4 flex flex-col"
     const inputLabel = "mb-2 text-xl"
-    const inputCss = "p-2 border-2 rounded-md"
+    const inputCss = "p-2 border-2 rounded-md "
 
     const [formData, setFormData] = useState({
         name: "",
@@ -55,9 +55,9 @@ const CreateBranch = () => {
             <div className="container mx-auto flex justify-center items-center h-screen">
 
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-2/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
-                    <h1 className="text-center p-2 text-4xl font-bold m-6">Add Branch</h1>
+                    <h1 className="text-center p-2 m-6 text-2xl font-semibold text-blue-700">Add Branch</h1>
 
-                    <form onSubmit={handleSubmit} className="w-[70vw] sm:w-[70%] p-10">
+                    <form onSubmit={handleSubmit} className="w-[50vw] sm:w-[55%] flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl">
 
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example1">
@@ -88,7 +88,7 @@ const CreateBranch = () => {
                         <div className="text-center">
                             <button
                                 type="submit"
-                                className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
+                                className="bg-blue-700 text-white w-full py-2 rounded-md bottom-2 "
                             >
                                 Create Branch
                             </button>
