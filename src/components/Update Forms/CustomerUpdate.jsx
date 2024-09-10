@@ -85,7 +85,7 @@ const CustomerUpdate = () => {
                     className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center"
                     id="login-box"
                 >
-                    <h1 className="text-center p-2 text-5xl font-bold m-6">
+                    <h1 className="text-center p-2 m-6 text-2xl font-semibold text-blue-700">
                         Update Customer
                     </h1>
 

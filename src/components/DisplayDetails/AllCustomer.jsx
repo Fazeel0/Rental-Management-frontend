@@ -8,6 +8,7 @@ const AllCustomer = () => {
   const [customers, setCustomers] = useState([]);
   const [uichange, setuichange] = useState(false);
   const [loading, setLoading] = useState();
+  const [allCustomers, setAllCustomers] = useState();
 
   const navigate = useNavigate();
 
@@ -16,11 +17,28 @@ const AllCustomer = () => {
       .get("/customer/all")
       .then((response) => {
         setCustomers(response.data.customers);
+        setAllCustomers(response.data.customers);
       })
       .catch((error) => {
         console.error("There was an error fetching the customers!", error);
       });
   }, [uichange]);
+
+  const handleChange = (e)=>{
+
+    let s = e.target.value.toLowerCase();
+
+    if(s === ""){
+      setAllCustomers(customers);
+    }else{
+      setAllCustomers([]);
+      const filteredCustomers = customers.filter((customer)=>{
+        return customer.name.toLowerCase().includes(s);
+      })
+      setAllCustomers(filteredCustomers);
+    }
+
+  }
 
   const handleDelete = async (id) => {
     try {
@@ -62,19 +80,25 @@ const AllCustomer = () => {
     document.getElementById("confirmDialog").classList.add("hidden");
   }
 
-
-
-
   if (loading === true) return <Loader />;
 
   return (
     <>
       {!customers ? (
         <h1 className="bg-red-300 p-3 rounded-lg text-3xl mt-2 mx-2 text-white">
-          Products not available
+          Customers not available
         </h1>
       ) : (
         <div className="overflow-x-auto mt-5">
+          <div className="flex justify-center">
+            <input
+              type="search"
+              placeholder="Search"
+              onChange={handleChange}
+              className="w-[20vw] h-12 p-4 rounded-lg border-2 border-blue-600 focus:border-none"
+            />
+            
+          </div>
           <table className="table">
             <thead>
               <tr>
@@ -89,17 +113,28 @@ const AllCustomer = () => {
               </tr>
             </thead>
             <tbody>
-              {customers.map((customer, index) => (
+              {allCustomers?.map((customer, index) => (
                 <tr key={customer._id}>
                   <th className="text-xl text-black font-bold">{index + 1}</th>
-                  <td className="text-xl text-blue-700 font-bold">{customer.name}</td>
-                  <td className="text-xl text-blue-700 font-bold">{customer.phoneNo}</td>
-                  <td className="text-xl text-blue-700 font-bold">{customer.address}</td>
+                  <td className="text-xl text-blue-700 font-bold">
+                    {customer.name}
+                  </td>
+                  <td className="text-xl text-blue-700 font-bold">
+                    {customer.phoneNo}
+                  </td>
+                  <td className="text-xl text-blue-700 font-bold">
+                    {customer.address}
+                  </td>
                   <td className="text-xl text-blue-700 font-bold">
                     {new Date(customer.createdAt).toLocaleDateString("en-GB")}
                   </td>
                   <td className="py-2 px-4 border-b">
-                    <button onClick={() => navigate(`/rental/create/${customer._id}`)} className="btn btn-primary text-white">Give Rent</button>
+                    <button
+                      onClick={() => navigate(`/rental/create/${customer._id}`)}
+                      className="btn btn-primary text-white"
+                    >
+                      Give Rent
+                    </button>
                   </td>
                   <td>
                     <i
@@ -141,7 +176,7 @@ const AllCustomer = () => {
               </div>
             </div>
           </div>
-        </div >
+        </div>
       )}
     </>
   );

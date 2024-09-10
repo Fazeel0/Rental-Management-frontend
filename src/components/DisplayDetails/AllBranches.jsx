@@ -9,6 +9,7 @@ const AllBranches = () => {
   const [loading, setLoading] = useState();
   const [uichange, setuichange] = useState(false);
   const navigate = useNavigate();
+  const [allBranches, setAllBranches] = useState();
 
   const getAllBranches = async () => {
     try {
@@ -17,6 +18,8 @@ const AllBranches = () => {
       setLoading(false);
       if (response.data.success) {
         setBranches(response.data.branches);
+        setAllBranches(response.data.branches);
+        console.log(allBranches);
       }
     } catch (error) {
       setLoading(false);
@@ -29,26 +32,39 @@ const AllBranches = () => {
     getAllBranches();
   }, [uichange]);
 
-//   const deleteBranch = async (id) => {
-//     try {
-//       console.log("delete :", id);
-//       let agree = window.confirm("Are you sure, want to delete this branch?");
+  const handleChange = (e)=>{
+    let s = e.target.value.toLowerCase();
+    if(s === ""){
+      setAllBranches(branches);
+    }else{
+      setAllBranches([])
+      const filteredBranches = branches.filter((branch)=>{
+        return branch.name.toLowerCase().includes(s);
+      })
+      setAllBranches(filteredBranches);
+    }
+  }
 
-//       if (agree) {
-//         const response = await axios.delete(`/branch/delete/${id}`);
+  //   const deleteBranch = async (id) => {
+  //     try {
+  //       console.log("delete :", id);
+  //       let agree = window.confirm("Are you sure, want to delete this branch?");
 
-//         if (response.data.success) {
-//           setuichange(!uichange);
-//           toast.success(response.data.message);
-//         }
-//       } else {
-//         return;
-//       }
-//     } catch (error) {
-//       console.log(error);
-//       toast.error(error.response.data.message);
-//     }
-//   };
+  //       if (agree) {
+  //         const response = await axios.delete(`/branch/delete/${id}`);
+
+  //         if (response.data.success) {
+  //           setuichange(!uichange);
+  //           toast.success(response.data.message);
+  //         }
+  //       } else {
+  //         return;
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //       toast.error(error.response.data.message);
+  //     }
+  //   };
 
   // handling delete user
 
@@ -103,13 +119,22 @@ const AllBranches = () => {
 
   return (
     <>
-      {!branches ? (
+      {!allBranches ? (
         <h1 className="bg-red-300 p-3 rounded-lg text-3xl mt-2 mx-2 text-white">
           Branches not available
         </h1>
       ) : (
         <>
           <div className="overflow-x-auto mt-5">
+            <div className="flex justify-center">
+              <input
+                type="search"
+                placeholder="Search"
+                onChange={handleChange}
+                className="w-[20vw] h-12 p-4 rounded-lg border-2 border-blue-600 focus:border-none"
+              />
+              
+            </div>
             <table className="table">
               {/* head */}
               <thead>
@@ -122,16 +147,24 @@ const AllBranches = () => {
                   <th className="text-xl text-black">Delete</th>
                 </tr>
               </thead>
-              {branches?.map((branch, index) => {
+              {allBranches?.map((branch, index) => {
                 return (
                   <>
                     <tbody>
                       {/* row 1 */}
                       <tr>
-                        <th className="text-xl text-black font-bold">{index + 1}</th>
-                        <td className="text-xl text-blue-700 font-bold">{branch?.name}</td>
-                        <td className="text-xl text-blue-700 font-bold">{branch?.location}</td>
-                        <td className="text-xl text-blue-700 font-bold">{branch?.contact}</td>
+                        <th className="text-xl text-black font-bold">
+                          {index + 1}
+                        </th>
+                        <td className="text-xl text-blue-700 font-bold">
+                          {branch?.name}
+                        </td>
+                        <td className="text-xl text-blue-700 font-bold">
+                          {branch?.location}
+                        </td>
+                        <td className="text-xl text-blue-700 font-bold">
+                          {branch?.contact}
+                        </td>
                         <td>
                           <i
                             onClick={() =>

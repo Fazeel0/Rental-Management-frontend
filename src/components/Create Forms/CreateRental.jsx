@@ -128,7 +128,7 @@ const CreateRental = () => {
     return (
         <>
             <div>
-                <h1 className="text-2xl font-bold text-center mt-6 bg-blue-300 rounded-lg mx-4">Rent a Product</h1>
+                <h1 className="text-center mt-6 bg-blue-300 rounded-lg mx-4 text-2xl font-semibold text-blue-700">Rent a Product</h1>
                 <form onSubmit={handleSubmit} >
                     <div className="grid grid-cols-2 gap-5 mx-10 mt-6">
                         <div>
