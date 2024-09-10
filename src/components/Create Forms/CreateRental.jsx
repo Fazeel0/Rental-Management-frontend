@@ -218,7 +218,7 @@ const CreateRental = () => {
                                             type="number"
                                             className="w-full px-2 py-1 border rounded"
                                             placeholder="Enter quantity"
-                                            value={row.quantity}
+                                            value={row?.quantity}
                                             onChange={(e) => handleInputChange(index, 'quantity', e.target.value)}
                                         />
                                     </td>

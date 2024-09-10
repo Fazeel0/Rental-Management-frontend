@@ -52,7 +52,7 @@ function App() {
           <Route path='/createBranch' element={<CreateBranch />} />
           <Route path='/updateBranch' element={<BranchUpdate />} />
 
-          
+
           <Route path='/rental-data/:id' element={<RentalData />} />
 
           {/* layout for customer....... */}

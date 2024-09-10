@@ -26,6 +26,7 @@ const RentalData = () => {
     })();
   }, []);
 
+  console.log(rental);
   return (
     <>
       <div className="flex flex-col">
@@ -65,7 +66,7 @@ const RentalData = () => {
               <h1 className="text-xl">
                 <span className="font-bold">Rented Quantity:</span>{" "}
                 <span className="text-blue-700 font-bold">
-                  {rental?.quantity}
+                  {rental?.totalQuantity}
                 </span>
               </h1>
               <h1 className="text-xl">
@@ -100,39 +101,11 @@ const RentalData = () => {
               </h1>
             </div>
 
-            {rental?.paymentSummary?.map((payment, index) => {
-              return (
-                <>
-                  <div className="border-2 border-black rounded-lg inline-block p-2 ">
-                    <h1 className="text-blue-600 font-bold text-2xl">
-                      Installment {index + 1}
-                    </h1>
-                    <hr className="h-[2px] bg-blue-400" />
 
-                    <h1 className="text-lg font-bold">
-                      <span>Date:</span>{" "}
-                      <span className="text-blue-600">
-                        {new Date(payment?.date).toLocaleDateString("en-GB")}
-                      </span>{" "}
-                    </h1>
-                    <h1 className="text-lg font-bold">
-                      <span>Price:</span>{" "}
-                      <span className="text-blue-600">{payment?.price}</span>
-                    </h1>
-                    <h1 className="text-lg font-bold">
-                      <span>Returned Qty:</span>{" "}
-                      <span className="text-blue-600">
-                        {payment?.returnedQuantity}
-                      </span>
-                    </h1>
-                  </div>
-                </>
-              );
-            })}
           </div>
         </div>
 
-        <div className="w-full space-y-2 ml-6">
+        <div className="w-full space-y-2">
           <h1 className="text-2xl bg-blue-300 mx-3 rounded-lg text-center mt-2 font-bold py-1">
             Customer Information
           </h1>
@@ -158,7 +131,7 @@ const RentalData = () => {
           </div>
         </div>
 
-        <div className="w-full space-y-2 ml-6">
+        <div className="w-full space-y-2">
           <h1 className="text-2xl bg-blue-300 mx-3 rounded-lg text-center mt-2 font-bold py-1">
             Product Information
           </h1>
@@ -176,7 +149,7 @@ const RentalData = () => {
               {rental?.products.map((product, index) => {
                 return <tbody>
                   <tr>
-                    <td className="text-xl text-black font-bold">{index+1}</td>
+                    <td className="text-xl text-black font-bold">{index + 1}</td>
                     <td className="text-xl text-blue-700 font-bold">{product?.product?.name}</td>
                     <td className="text-xl text-blue-700 font-bold">{product?.quantity}</td>
                     <td className="text-xl text-blue-700 font-bold">{product?.price}</td>
@@ -193,6 +166,39 @@ const RentalData = () => {
               <span className="font-bold">Price:</span> <span className="text-blue-700 font-bold">{rental?.product?.price}</span>
             </h1>
           </div> */}
+
+          <div>
+            <h1 className="text-2xl bg-blue-300 mx-3 rounded-lg text-center mt-2 font-bold py-1">Rental Summary</h1>
+            <div className="my-3 mx-10">
+              {/* multiple divs........... */}
+              {rental?.paymentSummary.map((summary, index) => {
+                return (
+                  <>
+                    <div className="border-4 border-blue-600 inline-block ml-6 p-4 rounded-lg">
+                      <h1 className="font-bold text-blue-800 text-xl">{index + 1}.</h1><hr className="h-[2px] bg-blue-400" />
+                      <h1 className="font-bold text-blue-800 text-xl">Date: {new Date(summary?.date).toLocaleDateString("en-GB")}</h1>
+                      <h1 className="font-bold text-blue-800 text-xl">Total Price: {summary?.price}</h1>
+                      <h1 className="font-bold text-blue-800 text-xl">Products </h1><hr className="h-[2px] bg-blue-400" />
+                      {/* multiple products............... */}
+                      {summary?.products?.map((obj) => {
+                        return (
+                          <>
+                            <div className="border-2 border-blue-600 mt-2 p-2 rounded-lg">
+                              <h1 className="font-bold text-blue-800 text-xl">Product Name: {obj?.product?.name}</h1>
+                              <h1 className="font-bold text-blue-800 text-xl">Returned Qty: {obj?.returnedQuantity}</h1>
+                              <h1 className="font-bold text-blue-800 text-xl">Price: {obj?.price}</h1>
+                            </div>
+                          </>
+                        )
+                      })}
+
+                    </div>
+                  </>
+                )
+              })}
+
+            </div>
+          </div>
         </div>
       </div>
     </>
