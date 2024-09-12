@@ -14,28 +14,28 @@ const CreateRental = () => {
 
     const { user } = useSelector(state => state.user);
 
-    const [customerDetails , setCustomerDetails] = useState();
+    const [customerDetails, setCustomerDetails] = useState();
 
 
-    useEffect(()=>{
-        (async ()=>{
+    useEffect(() => {
+        (async () => {
             try {
                 const response = await axios.get(`/customer/${id}`);
-                if(response.data.success){
+                if (response.data.success) {
                     setCustomerDetails(response.data.customer);
                     console.log(customerDetails);
-                    
+
                 }
             } catch (error) {
                 console.log(error);
-                
+
             }
         })()
-    },[])
+    }, [])
 
 
 
-    const [ products, setproducts] = useState();
+    const [products, setproducts] = useState();
     const [branches, setbranches] = useState()
     const [disableProduct, setDisableProduct] = useState(true);
     const [disableQty, setDisableQty] = useState(true);
@@ -63,10 +63,10 @@ const CreateRental = () => {
                 toast.error(error.response.data.message);
             }
         })();
-       
+
     }, []);
 
-    
+
 
 
 
@@ -108,7 +108,7 @@ const CreateRental = () => {
     const changeProduct = (id) => {
         const productId = id;
         console.log(productId);
-        
+
 
         let matchedProduct = {};
         products.forEach((product) => {
@@ -240,10 +240,10 @@ const CreateRental = () => {
                                             className="w-full px-2 py-1 border rounded"
                                             placeholder="Enter product"
                                             value={row?.id}
-                                            onChange={(e) =>{
+                                            onChange={(e) => {
                                                 handleInputChange(index, 'id', e.target.value);
                                                 changeProduct(row?.id)
-                                            } }
+                                            }}
                                         />
 
                                         <datalist id="suggestion" >
@@ -255,14 +255,14 @@ const CreateRental = () => {
                                         </datalist>
 
                                     </td>
-                                    <td  className="px-4 py-2 border">
-                                    <input id="customer"
-                                type="text"
-                                name="customer"
-                                value={productName}
-                                className="input input-bordered input-info w-full" readOnly />
+                                    <td className="px-4 py-2 border">
+                                        <input id="customer"
+                                            type="text"
+                                            name="customer"
+                                            value={productName}
+                                            className="input input-bordered input-info w-full" readOnly />
                                     </td>
-                                    
+
                                     <td className="px-4 py-2 border">
                                         <input
                                             type="number"
@@ -290,7 +290,7 @@ const CreateRental = () => {
 
                     <div className="mx-10">
                         <button type="submit" className="btn btn-success text-white font-bold mr-2">Submit</button>
-                        <button onClick={() => window.location.reload()} type="button" className="btn btn-error text-white font-bold">Reset</button>
+                        <button onClick={() => window.location.reload()} type="reset" className="btn btn-error text-white font-bold">Reset</button>
                     </div>
 
                 </form>
