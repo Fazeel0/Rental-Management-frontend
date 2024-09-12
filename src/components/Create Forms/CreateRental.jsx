@@ -11,8 +11,28 @@ const CreateRental = () => {
     const params = useParams();
     const id = params.id;
 
+    const [customerDetails, setCustomerDetails] = useState();
+   
 
-    const [products, setproducts] = useState();
+    useEffect(()=>{
+        (async ()=>{
+            try {
+                const response = await axios.get(`/customer/${id}`);
+                if(response.data.success){
+                    setCustomerDetails(response.data.customer);
+                    console.log(customerDetails);
+                    
+                }
+            } catch (error) {
+                console.log(error);
+                
+            }
+        })()
+    },[])
+
+
+
+    const [ products, setproducts] = useState();
     const [branches, setbranches] = useState()
     const [disableProduct, setDisableProduct] = useState(true);
     const [disableQty, setDisableQty] = useState(true);
@@ -32,7 +52,10 @@ const CreateRental = () => {
                 toast.error(error.response.data.message);
             }
         })();
+       
     }, []);
+
+    
 
 
 
@@ -68,10 +91,13 @@ const CreateRental = () => {
     }, [selectedBranch]);
 
 
-    const [availableQty, setavailableQty] = useState();
+    const [availableQty, setavailableQty] = useState(0);
+    const [productName, setProductName] = useState();
 
-    const changeProduct = (e) => {
-        const productId = e.target.value;
+    const changeProduct = (id) => {
+        const productId = id;
+        console.log(productId);
+        
 
         let matchedProduct = {};
         products.forEach((product) => {
@@ -80,6 +106,7 @@ const CreateRental = () => {
             }
         })
         setavailableQty(matchedProduct.availableQuantity);
+        setProductName(matchedProduct.name)
         setDisableQty(false);
     }
 
@@ -162,7 +189,7 @@ const CreateRental = () => {
                             <input id="customer"
                                 type="text"
                                 name="customer"
-                                value={id}
+                                value={customerDetails?.name}
                                 className="input input-bordered input-info w-full" readOnly />
                         </div>
 
@@ -186,6 +213,7 @@ const CreateRental = () => {
                     <table className="w-[70%] bg-white border mx-10 my-4">
                         <thead>
                             <tr>
+                                <th className="px-4 py-2 border">id</th>
                                 <th className="px-4 py-2 border">Product</th>
                                 <th className="px-4 py-2 border">Quantity</th>
                                 <th className="px-4 py-2 border"></th>
@@ -194,14 +222,17 @@ const CreateRental = () => {
                         <tbody>
                             {rows?.map((row, index) => (
                                 <tr key={index}>
-                                    <td className="px-4 py-2 border">
+                                    <td className="px-4  py-2 border">
                                         <input
                                             type="text"
                                             list="suggestion"
                                             className="w-full px-2 py-1 border rounded"
                                             placeholder="Enter product"
                                             value={row?.id}
-                                            onChange={(e) => handleInputChange(index, 'id', e.target.value)}
+                                            onChange={(e) =>{
+                                                handleInputChange(index, 'id', e.target.value);
+                                                changeProduct(row?.id)
+                                            } }
                                         />
 
                                         <datalist id="suggestion" >
@@ -213,11 +244,19 @@ const CreateRental = () => {
                                         </datalist>
 
                                     </td>
+                                    <td  className="px-4 py-2 border">
+                                    <input id="customer"
+                                type="text"
+                                name="customer"
+                                value={productName}
+                                className="input input-bordered input-info w-full" readOnly />
+                                    </td>
+                                    
                                     <td className="px-4 py-2 border">
                                         <input
                                             type="number"
                                             className="w-full px-2 py-1 border rounded"
-                                            placeholder="Enter quantity"
+                                            placeholder={`${availableQty} InStock`}
                                             value={row?.quantity}
                                             onChange={(e) => handleInputChange(index, 'quantity', e.target.value)}
                                         />
