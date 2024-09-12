@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
 import { useState } from "react"
+import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -11,8 +12,10 @@ const CreateRental = () => {
     const params = useParams();
     const id = params.id;
 
-    const [customerDetails, setCustomerDetails] = useState();
-   
+    const { user } = useSelector(state => state.user);
+
+    const [customerDetails , setCustomerDetails] = useState();
+
 
     useEffect(()=>{
         (async ()=>{
@@ -42,10 +45,18 @@ const CreateRental = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get("/branch/all");
-                if (response.data.success) {
-                    setbranches(response.data.branches);
+                if (user.roles === "Admin") {
+
+                    const response = await axios.get("/branch/all");
+                    if (response.data.success) {
+                        setbranches(response.data.branches);
+                    }
                 }
+                else if (user.roles === "SubAdmin") {
+
+                    setbranches(user?.branches)
+                }
+
 
             } catch (error) {
                 console.log(error);
@@ -123,7 +134,7 @@ const CreateRental = () => {
         })
 
         data = { ...data, products: rows, totalQuantity };
-        
+
 
         try {
             const response = await axios.post("/rental/add", data)

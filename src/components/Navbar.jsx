@@ -22,21 +22,6 @@ const Navbar = () => {
         navigate("/");
     }
 
-    const [branches, setBranches] = useState();
-
-    const getAllBranches = async () => {
-        try {
-
-            const response = await axios.get("/branch/all");
-            if (response.data.success) {
-                setBranches(response.data.branches);
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message)
-        }
-    }
-
     return (
         <>
             <div className="navbar bg-blue-400">
@@ -116,29 +101,6 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                {token ?
-                    <>
-                        <div className="navbar-end mr-24">
-                            <details className="dropdown">
-                                <summary onClick={getAllBranches} className="btn m-1 font-semibold text-lg">Branches</summary>
-                                <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-
-                                    {branches?.map((branch) => {
-                                        return (
-                                            <>
-                                                <li><a className='font-semibold text-sm'>{branch?.name}</a></li>
-                                            </>
-                                        )
-                                    })}
-
-
-                                </ul>
-                            </details>
-                        </div>
-                    </>
-                    :
-                    null
-                }
 
             </div>
         </>

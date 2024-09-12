@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 
 const CreateUser = () => {
@@ -10,7 +10,9 @@ const CreateUser = () => {
 
         let formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
-        console.log(data);
+        delete data.branch;
+        data.branches = checkedBranches;
+        
 
         try {
             const response = await axios.post(`/user/createUser`, data);
@@ -22,7 +24,37 @@ const CreateUser = () => {
             toast.error(error.response.data.message);
         }
 
+    }
 
+    const [branches, setBranches] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get("/branch/all");
+                if (response.data.success) {
+                    setBranches(response.data.branches);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
+    const [checkedBranches, setcheckedBranches] = useState([]);
+    const handleCheckChange = (e) => {
+        const { value, checked } = e.target;
+        console.log({ value, checked });
+
+        if (checked) {
+            setcheckedBranches([...checkedBranches, value])
+        }
+        else {
+            let arr = checkedBranches.filter((branch) => {
+                return branch !== value;
+            })
+            setcheckedBranches(arr);
+        }
     }
 
     const star = <span className='text-red-600'>*</span>;
@@ -56,6 +88,25 @@ const CreateUser = () => {
                             className="input input-bordered input-primary w-full max-w-xs" required />
 
                     </div>
+
+                    <div>
+                        <h1 className="font-bold">Assign Branches to this user:</h1><hr className='mb-2' />
+                        {branches?.map((branch) => {
+                            return (
+                                <>
+                                    <input type="checkbox" name="branch" onChange={handleCheckChange} id={branch?.name} value={branch?._id}
+                                        className="border-2 border-black border-solid" />
+                                    <label htmlFor={branch?.name}
+                                        className="font-bold mr-2">
+                                        {branch?.name}
+                                    </label>
+                                </>
+                            )
+                        })}
+
+                    </div>
+
+
                     <div>
                         <button type='submit' className='btn btn-primary w-full text-white text-xl'>Submit</button>
                     </div>

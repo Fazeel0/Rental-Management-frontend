@@ -24,15 +24,15 @@ const AllCustomer = () => {
       });
   }, [uichange]);
 
-  const handleChange = (e)=>{
+  const handleChange = (e) => {
 
     let s = e.target.value.toLowerCase();
 
-    if(s === ""){
+    if (s === "") {
       setAllCustomers(customers);
-    }else{
+    } else {
       setAllCustomers([]);
-      const filteredCustomers = customers.filter((customer)=>{
+      const filteredCustomers = customers.filter((customer) => {
         return customer.name.toLowerCase().includes(s);
       })
       setAllCustomers(filteredCustomers);
@@ -93,11 +93,11 @@ const AllCustomer = () => {
           <div className="flex justify-center">
             <input
               type="search"
-              placeholder="Search"
+              placeholder="Search by Customer name"
               onChange={handleChange}
               className="w-[20vw] h-12 p-4 rounded-lg border-2 border-blue-600 focus:border-none"
             />
-            
+
           </div>
           <table className="table">
             <thead>
