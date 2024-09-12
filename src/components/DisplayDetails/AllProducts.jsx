@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
+import { useSelector } from "react-redux";
 
 const AllProducts = () => {
   const [products, setProducts] = useState();
@@ -12,6 +13,8 @@ const AllProducts = () => {
   const [scraps, setScraps] = useState([]);
   const [totalScrap, settotalScrap] = useState();
   const navigate = useNavigate();
+
+  const { user } = useSelector(state => state.user);
 
   const getAllScraps = async (id) => {
     try {
@@ -41,14 +44,34 @@ const AllProducts = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/product/get/all");
-      console.log(response);
+      if (user?.roles === "Admin") {
+        const response = await axios.get("/product/get/all");
+        console.log(response);
+
+        if (response.data.success) {
+          setProducts(response.data.products);
+          setAllProducts(response.data.products);
+        }
+      }
+      else if (user?.roles === "SubAdmin") {
+
+        let productsByBranches = [];
+        await Promise.all(
+          user?.branches?.map(async (branch) => {
+            let response = await axios.post("/product/getProductsByBranch", { branch: branch._id })
+            if (response.data.success) {
+              let p = response.data.products;
+              productsByBranches.push(...p);
+              setProducts(productsByBranches);
+              setAllProducts(productsByBranches);
+            }
+          })
+        )
+
+
+      }
 
       setLoading(false);
-      if (response.data.success) {
-        setProducts(response.data.products);
-        setAllProducts(response.data.products);
-      }
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -60,10 +83,10 @@ const AllProducts = () => {
     getAllProducts();
   }, [uichange]);
 
-  const handleChange = (e)=>{
+  const handleChange = (e) => {
     let s = e.target.value.toLowerCase();
 
-    const filteredProduct = products.filter((product)=>{
+    const filteredProduct = products.filter((product) => {
       return product.name.toLowerCase().includes(s);
     })
 
@@ -149,6 +172,7 @@ const AllProducts = () => {
                 <th className="text-xl text-black">Scrap</th>
                 <th className="text-xl text-black">Update</th>
                 <th className="text-xl text-black">Delete</th>
+                <th className="text-xl text-black">Branch</th>
               </tr>
             </thead>
             {allProducts?.map((product, index) => {
@@ -198,6 +222,11 @@ const AllProducts = () => {
                           class="fa-solid fa-trash text-red-600 cursor-pointer"
                         ></i>
                       </td>
+
+                      <td className="text-xl text-blue-700 font-bold">
+                        {product?.branch?.name}
+                      </td>
+
                     </tr>
                   </tbody>
                 </>

@@ -3,11 +3,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const CreateProduct = () => {
   const inputDiv = "mb-4 flex flex-col";
   const inputLabel = "mb-2 text-xl";
   const inputCss = "p-2 border-2 rounded-md";
+
+  const { user } = useSelector(state => state.user);
 
   const navigate = useNavigate();
 
@@ -26,10 +29,17 @@ const CreateProduct = () => {
 
   const getAllBranches = async () => {
     try {
-      const response = await axios.get("/branch/all");
-      if (response.data.success) {
-        setBranches(response.data.branches);
+
+      if (user.roles === "Admin") {
+        const response = await axios.get("/branch/all");
+        if (response.data.success) {
+          setBranches(response.data.branches);
+        }
       }
+      else if (user.roles === "SubAdmin") {
+        setBranches(user?.branches);
+      }
+
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -99,7 +109,7 @@ const CreateProduct = () => {
                 required
               />
             </div>
-            <div className="flex  sm:flex-col  xl:justify-between 2xl:flex-row gap-2">
+            <div className="flex sm:flex-col xl:justify-between gap-2">
               <div className={inputDiv}>
                 <label className={inputLabel} htmlFor="form1Example2">
                   Price
