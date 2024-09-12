@@ -25,6 +25,8 @@ const RentUpdate = () => {
         const response = await axios.get(`/rental/${id}`);
         if (response.data.success) {
           setRentalProduct(response.data.rentalProduct);
+          console.log("getting rentalProduct");
+          
           console.log(rentalProduct);
         }
       } catch (error) {

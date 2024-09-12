@@ -128,12 +128,21 @@ const CreateRental = () => {
         let formData = new FormData(e.target);
         let data = Object.fromEntries(formData.entries());
 
+    
+        
+        data = {
+            ...data,
+            customer : id,
+        }
+
         let totalQuantity = 0;
         rows.forEach((row) => {
             totalQuantity = totalQuantity + Number(row.quantity);
         })
 
         data = { ...data, products: rows, totalQuantity };
+        console.log(data);
+        
 
 
         try {
@@ -151,10 +160,12 @@ const CreateRental = () => {
 
 
     //Table 
-    const [rows, setRows] = useState([{ id: '', quantity: '' }]);
+    const [rows, setRows] = useState([{ name: '', quantity: '' }]);
 
     const handleAddRow = () => {
-        setRows([...rows, { id: '', quantity: '' }]);
+        setRows([...rows, { name: '', quantity: '' }]);
+        
+        
     };
 
     const handleInputChange = (index, field, value) => {
@@ -224,7 +235,7 @@ const CreateRental = () => {
                     <table className="w-[70%] bg-white border mx-10 my-4">
                         <thead>
                             <tr>
-                                <th className="px-4 py-2 border">id</th>
+                                {/* <th className="px-4 py-2 border">id</th> */}
                                 <th className="px-4 py-2 border">Product</th>
                                 <th className="px-4 py-2 border">Quantity</th>
                                 <th className="px-4 py-2 border"></th>
@@ -239,29 +250,29 @@ const CreateRental = () => {
                                             list="suggestion"
                                             className="w-full px-2 py-1 border rounded"
                                             placeholder="Enter product"
-                                            value={row?.id}
+                                            value={row?.name}
                                             onChange={(e) =>{
-                                                handleInputChange(index, 'id', e.target.value);
-                                                changeProduct(row?.id)
+                                                handleInputChange(index, 'name', e.target.value);
+                                                // changeProduct(row?.id)
                                             } }
                                         />
 
                                         <datalist id="suggestion" >
                                             {products?.map((product) => {
                                                 return <>
-                                                    <option value={product?._id}>{product?.name}</option>
+                                                    <option value={product?.name}>{product?.name}</option>
                                                 </>
                                             })}
                                         </datalist>
 
                                     </td>
-                                    <td  className="px-4 py-2 border">
+                                    {/* <td  className="px-4 py-2 border">
                                     <input id="customer"
                                 type="text"
                                 name="customer"
                                 value={productName}
                                 className="input input-bordered input-info w-full" readOnly />
-                                    </td>
+                                    </td> */}
                                     
                                     <td className="px-4 py-2 border">
                                         <input
