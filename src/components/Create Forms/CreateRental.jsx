@@ -71,9 +71,12 @@ const CreateRental = () => {
 
 
     const [selectedBranch, setselectedBranch] = useState();
+    const [isBranchSelected, setIsBranchSelected] = useState(false);
     const changeBranch = async (e) => {
         let value = e.target.value;
+        
         setselectedBranch(value);
+        setIsBranchSelected(true);
         setDisableProduct(false);
     }
 
@@ -128,11 +131,13 @@ const CreateRental = () => {
         let formData = new FormData(e.target);
         let data = Object.fromEntries(formData.entries());
 
+
     
         
         data = {
             ...data,
             customer : id,
+            branch : selectedBranch,
         }
 
         let totalQuantity = 0;
@@ -217,7 +222,8 @@ const CreateRental = () => {
 
                         <div>
                             <label htmlFor="branch" className="font-bold">Branch:</label>
-                            <select onChange={changeBranch} name="branch" id="branch" className="select select-info w-full" required>
+                            <select onChange={changeBranch} name="branch" id="branch" className="select select-info w-full" required disabled={isBranchSelected} 
+                            >
                                 <option disabled selected>Select Branch</option>
                                 {branches?.map((branch) => {
                                     return (

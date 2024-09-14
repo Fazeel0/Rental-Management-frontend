@@ -7,7 +7,10 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader";
 
 const AllRents = () => {
-  const [rentals, setrentals] = useState();
+  
+  const [customerName, setCustomerName] = useState("");
+
+  const [displayRental, setDisplayRental] = useState();
   const [allRentals, setAllRentals] = useState();
   const navigate = useNavigate();
 
@@ -25,7 +28,7 @@ const AllRents = () => {
           setloading(true);
           response = await axios.get("/rental/all");
           if (response.data.success) {
-            setrentals(response.data.rentalProducts);
+            setDisplayRental(response.data.rentalProducts);
             setAllRentals(response.data.rentalProducts)
             setloading(false);
           }
@@ -34,7 +37,7 @@ const AllRents = () => {
           setloading(true);
           response = await axios.post("/rental/all/byBranches", { branches: user.branches });
           if (response.data.success) {
-            setrentals(response.data.rentalByBranches);
+            setDisplayRental(response.data.rentalByBranches);
             setAllRentals(response.data.rentalByBranches)
             setloading(false);
           }
@@ -48,22 +51,31 @@ const AllRents = () => {
     })();
   }, []);
 
-  const handleChange = (e) => {
-    let s = e.target.value.toLowerCase();
+  
 
-    if (s === "") {
-      setAllRentals(rentals);
-    } else {
-      const filteredProduct = rentals.filter((rental) => {
-        return rental.customer.name.toLowerCase().includes(s);
-      });
 
-      setAllRentals(filteredProduct);
+  //handle search
+  const handleSearch = async(e)=>{
+    console.log(customerName);
+    try {
+        const response = await axios.post(`rental/querySearch?search=${customerName}`)
+        if(response.data.success){
+            setDisplayRental(response.data.searchArray);
+        }
+    } catch (error) {
+        console.log(error);
+        
     }
+}
+const handleChange = (e)=>{
+setCustomerName(e.target.value);
+}
 
-  };
-
-  console.log(rentals);
+useEffect(()=>{
+if(customerName === ""){
+    setDisplayRental(allRentals);
+}
+},[handleChange])
 
   if (loading) {
     return (
@@ -83,6 +95,7 @@ const AllRents = () => {
             onChange={handleChange}
             className="w-[20vw] h-12 p-4 rounded-lg border-2 border-blue-600 focus:border-none"
           />
+          <button onClick={handleSearch} className='ml-4 bg-blue-700 text-white font-bold w-20 h-12 rounded-lg'>Search</button>
         </div>
         <table className="table">
           <thead>
@@ -97,7 +110,7 @@ const AllRents = () => {
               <th className="text-xl font-bold text-black">Branch</th>
             </tr>
           </thead>
-          {allRentals?.map((rent, index) => {
+          {displayRental?.map((rent, index) => {
             return (
               <>
                 <tbody>
