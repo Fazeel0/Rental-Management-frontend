@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RentUpdate from "../Update Forms/RentUpdate";
 import { useSelector } from "react-redux";
+import Loader from "../Loader";
 
 const AllRents = () => {
   const [rentals, setrentals] = useState();
   const [allRentals, setAllRentals] = useState();
   const navigate = useNavigate();
+
+  const [loading, setloading] = useState(true)
 
   const { user } = useSelector(state => state.user);
   console.log(user);
@@ -19,21 +22,26 @@ const AllRents = () => {
 
         let response;
         if (user.roles === "Admin") {
+          setloading(true);
           response = await axios.get("/rental/all");
           if (response.data.success) {
             setrentals(response.data.rentalProducts);
             setAllRentals(response.data.rentalProducts)
+            setloading(false);
           }
         }
         else if (user.roles === "SubAdmin") {
+          setloading(true);
           response = await axios.post("/rental/all/byBranches", { branches: user.branches });
           if (response.data.success) {
             setrentals(response.data.rentalByBranches);
             setAllRentals(response.data.rentalByBranches)
+            setloading(false);
           }
         }
 
       } catch (error) {
+        setloading(false);
         console.log(error);
         toast.error(error.response.data.message);
       }
@@ -56,6 +64,14 @@ const AllRents = () => {
   };
 
   console.log(rentals);
+
+  if (loading) {
+    return (
+      <>
+        <Loader />
+      </>
+    )
+  }
 
   return (
     <>

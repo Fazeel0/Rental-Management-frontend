@@ -7,21 +7,25 @@ import Loader from "../Loader";
 const AllCustomer = () => {
   const [customers, setCustomers] = useState([]);
   const [uichange, setuichange] = useState(false);
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const [allCustomers, setAllCustomers] = useState();
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("/customer/all")
       .then((response) => {
         setCustomers(response.data.customers);
         setAllCustomers(response.data.customers);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("There was an error fetching the customers!", error);
+        setLoading(false);
       });
+
   }, [uichange]);
 
   const handleChange = (e) => {
