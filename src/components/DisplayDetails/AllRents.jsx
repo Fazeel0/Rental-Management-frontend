@@ -7,12 +7,17 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader";
 
 const AllRents = () => {
-  
+
   const [customerName, setCustomerName] = useState("");
 
   const [displayRental, setDisplayRental] = useState();
   const [allRentals, setAllRentals] = useState();
   const navigate = useNavigate();
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  //for displaying buttons
+  const [paginateButtons, setPaginateButtons] = useState(true);
 
   const [loading, setloading] = useState(true)
 
@@ -26,10 +31,11 @@ const AllRents = () => {
         let response;
         if (user.roles === "Admin") {
           setloading(true);
-          response = await axios.get("/rental/all");
+          response = await axios.post(`/rental/rentsByPaginate?page=${page}&limit=10`);
           if (response.data.success) {
-            setDisplayRental(response.data.rentalProducts);
-            setAllRentals(response.data.rentalProducts)
+            setDisplayRental(response.data.rentals);
+            setAllRentals(response.data.rentals);
+            setTotalPages(response.data.totalPages);
             setloading(false);
           }
         }
@@ -49,33 +55,47 @@ const AllRents = () => {
         toast.error(error.response.data.message);
       }
     })();
-  }, []);
+  }, [page]);
 
-  
+  const handlePrevious = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  }
+
+  const handleNext = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  }
 
 
   //handle search
-  const handleSearch = async(e)=>{
+  const handleSearch = async (e) => {
+    //hide paginate buttons
+    setPaginateButtons(false);
     console.log(customerName);
     try {
-        const response = await axios.post(`rental/querySearch?search=${customerName}`)
-        if(response.data.success){
-            setDisplayRental(response.data.searchArray);
-        }
+      const response = await axios.post(`rental/querySearch?search=${customerName}`)
+      if (response.data.success) {
+        setDisplayRental(response.data.searchArray);
+      }
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
     }
-}
-const handleChange = (e)=>{
-setCustomerName(e.target.value);
-}
+  }
 
-useEffect(()=>{
-if(customerName === ""){
-    setDisplayRental(allRentals);
-}
-},[handleChange])
+  const handleChange = (e) => {
+    setCustomerName(e.target.value);
+  }
+
+  useEffect(() => {
+    if (customerName === "") {
+      //show paginate buttons when there is no search
+      setPaginateButtons(true);
+      setDisplayRental(allRentals);
+    }
+  }, [handleChange])
 
   if (loading) {
     return (
@@ -151,6 +171,22 @@ if(customerName === ""){
             );
           })}
         </table>
+
+
+        {paginateButtons && user.roles === "Admin" ?
+          <>
+            <div className="h-20 flex justify-center items-center">
+              <button onClick={handlePrevious} className="btn btn-success text-white font-bold" disabled={page === 1}>Previous</button>
+              <span className="bg-blue-500 mx-3 p-4 rounded text-white font-bold">Page {page} of {totalPages}</span>
+              <button onClick={handleNext} className="btn btn-success text-white font-bold" disabled={page === totalPages}>Next</button>
+            </div>
+          </>
+          :
+          null
+        }
+
+
+
       </div>
     </>
   );
