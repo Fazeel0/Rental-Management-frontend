@@ -89,7 +89,7 @@ function App() {
             <Route path='add' element={<CreateBranch />} />
           </Route>
 
-          <Route path='invoice' element={<Invoice />} />
+          <Route path='invoice/:id' element={<Invoice />} />
 
         </Routes>
 

@@ -27,6 +27,7 @@ const RentalData = () => {
   }, []);
 
   console.log(rental);
+
   return (
     <>
       <div className="flex flex-col">
@@ -42,7 +43,11 @@ const RentalData = () => {
           ) : (
             <p className="text-2xl font-bold text-blue-600">RENT CLOSED</p>
           )}
+
+          <button onClick={() => navigate(`/invoice/${id}`)} className="btn btn-primary ml-3">Invoice</button>
+
         </div>
+
 
         <div className="w-full ">
           <h1 className="text-2xl bg-blue-300 mx-3 rounded-lg text-center mt-2 font-bold py-1">
@@ -199,6 +204,7 @@ const RentalData = () => {
 
             </div>
           </div>
+          
         </div>
       </div>
     </>

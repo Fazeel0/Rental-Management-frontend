@@ -24,7 +24,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="navbar bg-blue-400">
+            <div className="navbar bg-blue-400 print:hidden">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -89,7 +89,7 @@ const Navbar = () => {
                                     :
                                     null
                                 }
-                                <li><NavLink to={"/invoice"} className='font-semibold text-lg'>Invoice</NavLink></li>
+
                                 <button onClick={handleLogout} className='font-semibold text-lg bg-blue-700 px-2 rounded-lg text-white
                                 hover:bg-blue-500'>
                                     Logout
