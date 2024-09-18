@@ -36,10 +36,12 @@ const CreateRental = () => {
 
 
     const [products, setproducts] = useState();
-    const [branches, setbranches] = useState()
+     const [branches, setbranches] = useState()
     const [disableProduct, setDisableProduct] = useState(true);
     const [disableQty, setDisableQty] = useState(true);
     const hasMounted = useRef(false);
+    console.log(products);
+    
 
 
     useEffect(() => {
@@ -105,24 +107,10 @@ const CreateRental = () => {
     }, [selectedBranch]);
 
 
-    const [availableQty, setavailableQty] = useState(0);
-    const [productName, setProductName] = useState();
 
-    const changeProduct = (id) => {
-        const productId = id;
-        console.log(productId);
+    
 
-
-        let matchedProduct = {};
-        products.forEach((product) => {
-            if (product._id === productId) {
-                matchedProduct = product;
-            }
-        })
-        setavailableQty(matchedProduct.availableQuantity);
-        setProductName(matchedProduct.name)
-        setDisableQty(false);
-    }
+   
 
 
 
@@ -165,18 +153,26 @@ const CreateRental = () => {
 
 
     //Table 
-    const [rows, setRows] = useState([{ name: '', quantity: '' }]);
+    const [rows, setRows] = useState([{ name: '', quantity: '', availableQty : '0' }]);
 
     const handleAddRow = () => {
-        setRows([...rows, { name: '', quantity: '' }]);
+        setRows([...rows, { name: '', quantity: '', availableQty : '0' }]);
         
         
     };
 
     const handleInputChange = (index, field, value) => {
         const updatedRows = [...rows];
+        if(field === "name"){
+            products.forEach((product)=>{
+                if(value === product.name){
+                    console.log(product.availableQuantity);
+                    updatedRows[index]["availableQty"] = product.availableQuantity
+                }
+            })
+        }
         updatedRows[index][field] = value;
-        setRows(updatedRows);
+        setRows(updatedRows); 
     };
 
     return (
@@ -283,9 +279,10 @@ const CreateRental = () => {
                                     <td className="px-4 py-2 border">
                                         <input
                                             type="number"
-                                            className="w-full px-2 py-1 border rounded"
-                                            placeholder={`${availableQty} InStock`}
+                                            className="w-full px-2 py-1 border rounded placeholder:text-green-600"
+                                            placeholder={`${row.availableQty} InStock`}
                                             value={row?.quantity}
+                                            max={row.availableQty}
                                             onChange={(e) => handleInputChange(index, 'quantity', e.target.value)}
                                         />
                                     </td>

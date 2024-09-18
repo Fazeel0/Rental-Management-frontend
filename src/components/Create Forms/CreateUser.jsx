@@ -94,7 +94,7 @@ const CreateUser = () => {
                         <div className='grid grid-cols-2'>
                         {branches?.map((branch) => {
                             return (
-                                <div>
+                                 <div>
                                     <input type="checkbox" name="branch" onChange={handleCheckChange} id={branch?.name} value={branch?._id}
                                         className="border-2 border-black border-solid" />
                                     <label htmlFor={branch?.name}
