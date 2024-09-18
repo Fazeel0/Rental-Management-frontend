@@ -47,10 +47,10 @@ const RentUpdate = () => {
   }
 
   //Dynamic inputs handling
-  const [returnedInfo, setReturnedInfo] = useState([{ product: "", returnedQuantity: 0 }])
+  const [returnedInfo, setReturnedInfo] = useState([{ product: "", returnedQuantity: 0, inHandQuantity : 0 }])
 
   const addNewRow = () => {
-    let newReturnedInfo = [...returnedInfo, { product: "", returnedQuantity: 0 }];
+    let newReturnedInfo = [...returnedInfo, { product: "", returnedQuantity: 0, inHandQuantity : 0 }];
     setReturnedInfo(newReturnedInfo);
   }
 
@@ -137,7 +137,7 @@ const RentUpdate = () => {
               />
             </div>
 
-            <div>
+            {/* <div>
               <label htmlFor="balanceAmount" className="font-bold">
                 Balance Amount:
               </label>
@@ -149,7 +149,7 @@ const RentUpdate = () => {
                 className="input input-bordered input-info w-full bg-gray-200"
                 readOnly
               />
-            </div>
+            </div> */}
           </div>
 
           {/* Table....................... */}
@@ -171,7 +171,7 @@ const RentUpdate = () => {
 
                       <datalist id="suggestion">
                         {rentalProduct?.products?.map((obj) => {
-                          return <><option value={obj?.product?._id}>{obj?.product?.name}</option></>
+                          return <><option value={obj?.product?.name}>{obj?.product?.name}</option></>
                         })}
                       </datalist>
                     </td>

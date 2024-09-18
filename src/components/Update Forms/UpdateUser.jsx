@@ -28,6 +28,23 @@ const UpdateUser = () => {
 
     }, [])
 
+    const [checkedBranches, setcheckedBranches] = useState([]);
+    const handleCheckChange = (e) => {
+        const { value, checked } = e.target;
+        console.log({ value, checked });
+
+        if (checked) {
+            setcheckedBranches([...checkedBranches, value])
+        }
+        else {
+            let arr = checkedBranches.filter((branch) => {
+                return branch !== value;
+            })
+            setcheckedBranches(arr);
+        }
+        
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -36,6 +53,8 @@ const UpdateUser = () => {
 
 
         const { name, email, roles } = data;
+        console.log(checkedBranches);
+        
 
         let filteredData = {};
         if (name) {
@@ -47,6 +66,12 @@ const UpdateUser = () => {
         if (roles) {
             filteredData = { ...filteredData, roles };
         }
+        if(checkedBranches.length > 0) {
+            filteredData = {...filteredData, branches :  checkedBranches};
+        }
+
+        console.log(filteredData);
+        
 
         try {
 
@@ -62,12 +87,29 @@ const UpdateUser = () => {
         }
     }
 
+   
+
+    const [branches, setBranches] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get("/branch/all");
+                if (response.data.success) {
+                    setBranches(response.data.branches);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
 
     return (
         <>
             <div className='w-full h-[80vh] flex flex-col space-y-7 justify-center items-center'>
                 <h1 className='text-2xl font-semibold text-blue-700'>UPDATE USER</h1>
-                <form onSubmit={handleSubmit} className='flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl'>
+                <form onSubmit={handleSubmit} className='flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl w-1/3'>
 
                     <div>
                         <label htmlFor="name">Name:</label>
@@ -92,6 +134,25 @@ const UpdateUser = () => {
                             <option value="Admin">Admin</option>
                             <option value="SubAdmin">SubAdmin</option>
                         </select>
+                    </div>
+                    <div>
+                        <h1 className="font-bold">Assign Branches to this user:</h1><hr className='mb-2' />
+                        <div className='grid grid-cols-2 gap-2'>
+                        {branches?.map((branch) => {
+                            return (
+                                <div>
+                                    <input type="checkbox" name="branch" onChange={handleCheckChange} id={branch?.name} value={branch?._id}
+                                        className="border-2 border-black border-solid" />
+                                    <label htmlFor={branch?.name}
+                                        className="font-bold ml-1">
+                                        {branch?.name}
+                                    </label>
+
+                                </div>
+                            )
+                        })}
+                        </div>
+
                     </div>
 
                     <div>

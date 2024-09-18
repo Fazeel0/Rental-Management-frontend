@@ -63,7 +63,7 @@ const CreateUser = () => {
         <>
             <div className='w-full h-[80vh] flex flex-col space-y-7 justify-center items-center'>
                 <h1 className='text-2xl font-semibold text-blue-700'>Create User</h1>
-                <form onSubmit={handleSubmit} className='flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl'>
+                <form onSubmit={handleSubmit} className='flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl '>
                     <div>
                         <label htmlFor="name">Name:</label> {star}
                         <input id='name' name='name'
@@ -91,18 +91,20 @@ const CreateUser = () => {
 
                     <div>
                         <h1 className="font-bold">Assign Branches to this user:</h1><hr className='mb-2' />
+                        <div className='grid grid-cols-2'>
                         {branches?.map((branch) => {
                             return (
-                                <>
+                                 <div>
                                     <input type="checkbox" name="branch" onChange={handleCheckChange} id={branch?.name} value={branch?._id}
                                         className="border-2 border-black border-solid" />
                                     <label htmlFor={branch?.name}
-                                        className="font-bold mr-2">
+                                        className="font-bold ml-1">
                                         {branch?.name}
                                     </label>
-                                </>
+                                </div>
                             )
                         })}
+                        </div>
 
                     </div>
 
