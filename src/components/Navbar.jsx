@@ -50,14 +50,10 @@ const Navbar = () => {
                                     <li><NavLink to={"/customer"}>Customer</NavLink></li>
                                     <li><NavLink to={"/rental"}>Rental</NavLink></li>
 
-                                    {user.roles === "Admin" ?
-                                        <>
-                                            <li><NavLink to={"/users"}>Users</NavLink></li>
-                                            <li><NavLink to={"/branch"}>Branch</NavLink></li>
-                                        </>
-                                        :
-                                        null
-                                    }
+
+                                    <li><NavLink to={"/users"}>Users</NavLink></li>
+                                    <li><NavLink to={"/branch"}>Branch</NavLink></li>
+
 
                                     <li><NavLink to={"/product"}>Product</NavLink></li>
                                     <button onClick={handleLogout} className='font-semibold text-lg bg-blue-700 px-2 rounded-lg text-white'>
@@ -81,14 +77,10 @@ const Navbar = () => {
                                 <li><NavLink to={"/rental"} className='font-semibold text-lg'>Rental</NavLink></li>
                                 <li><NavLink to={"/product"} className='font-semibold text-lg'>Product</NavLink></li>
 
-                                {user.roles === "Admin" ?
-                                    <>
-                                        <li><NavLink to={"/users"} className='font-semibold text-lg'>Users</NavLink></li>
-                                        <li><NavLink to={"/branch"} className='font-semibold text-lg'>Branch</NavLink></li>
-                                    </>
-                                    :
-                                    null
-                                }
+
+                                <li><NavLink to={"/users"} className='font-semibold text-lg'>Users</NavLink></li>
+                                <li><NavLink to={"/branch"} className='font-semibold text-lg'>Branch</NavLink></li>
+
 
                                 <button onClick={handleLogout} className='font-semibold text-lg bg-blue-700 px-2 rounded-lg text-white
                                 hover:bg-blue-500'>
