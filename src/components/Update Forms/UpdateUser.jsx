@@ -109,7 +109,7 @@ const UpdateUser = () => {
         <>
             <div className='w-full h-[80vh] flex flex-col space-y-7 justify-center items-center'>
                 <h1 className='text-2xl font-semibold text-blue-700'>UPDATE USER</h1>
-                <form onSubmit={handleSubmit} className='flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl w-1/3'>
+                <form onSubmit={handleSubmit} className='flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl w-96'>
 
                     <div>
                         <label htmlFor="name">Name:</label>
@@ -137,7 +137,7 @@ const UpdateUser = () => {
                     </div>
                     <div>
                         <h1 className="font-bold">Assign Branches to this user:</h1><hr className='mb-2' />
-                        <div className='grid grid-cols-2 gap-2'>
+                        <div className='grid grid-cols-2 gap-1'>
                         {branches?.map((branch) => {
                             return (
                                 <div>

@@ -79,7 +79,7 @@ const CreateRental = () => {
         
         setselectedBranch(value);
         setIsBranchSelected(true);
-        setDisableProduct(false);
+        // setDisableProduct(false);
     }
 
     useEffect(() => {
@@ -91,6 +91,9 @@ const CreateRental = () => {
 
                     if (response.data.success) {
                         setproducts(response.data.products);
+                        if(response.data.products.length>0){
+                            setDisableProduct(false);
+                        }
                     }
 
                 } catch (error) {
@@ -253,6 +256,7 @@ const CreateRental = () => {
                                             className="w-full px-2 py-1 border rounded"
                                             placeholder="Enter product"
                                             value={row?.name}
+                                            disabled={disableProduct}
                                             onChange={(e) =>{
                                                 handleInputChange(index, 'name', e.target.value);
                                                 // changeProduct(row?.id)
@@ -282,6 +286,7 @@ const CreateRental = () => {
                                             className="w-full px-2 py-1 border rounded placeholder:text-green-600"
                                             placeholder={`${row.availableQty} InStock`}
                                             value={row?.quantity}
+                                            disabled = {disableProduct}
                                             max={row.availableQty}
                                             onChange={(e) => handleInputChange(index, 'quantity', e.target.value)}
                                         />
