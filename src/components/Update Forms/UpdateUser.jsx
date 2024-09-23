@@ -52,7 +52,7 @@ const UpdateUser = () => {
         const data = Object.fromEntries(formData.entries());
 
 
-        const { name, email, roles } = data;
+        const { name, email, roles, password } = data;
         console.log(checkedBranches);
         
 
@@ -65,6 +65,9 @@ const UpdateUser = () => {
         }
         if (roles) {
             filteredData = { ...filteredData, roles };
+        }
+        if(password){
+            filteredData = { ...filteredData, password};
         }
         if(checkedBranches.length > 0) {
             filteredData = {...filteredData, branches :  checkedBranches};
@@ -135,6 +138,20 @@ const UpdateUser = () => {
                             <option value="SubAdmin">SubAdmin</option>
                         </select>
                     </div>
+                        {
+                            user?.roles === "SubAdmin" ? <>
+
+                            {/* for password change  */}
+                            <div>
+                        <label htmlFor="password">Password:</label> 
+                        <input id='password' name='password'
+                            type="password"
+                            placeholder="Password"
+                            className="input input-bordered input-primary w-full max-w-xs" />
+
+                    </div>
+                            
+                            
                     <div>
                         <h1 className="font-bold">Assign Branches to this user:</h1><hr className='mb-2' />
                         <div className='grid grid-cols-2 gap-1'>
@@ -154,6 +171,10 @@ const UpdateUser = () => {
                         </div>
 
                     </div>
+                    </>
+                    : 
+                    <></>
+                        }
 
                     <div>
                         <button type='submit' className='btn btn-primary w-full text-white text-xl'>Submit</button>

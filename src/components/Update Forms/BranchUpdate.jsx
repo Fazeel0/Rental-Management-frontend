@@ -97,7 +97,7 @@ const BranchUpdate = () => {
                 <div className=" pt-5 pb-5 mt-5 mb-5 border-secondary  w-3/4 h-3/4 flex flex-col justify-center items-center" id="login-box">
                     <h1 className="text-center p-2 m-6 text-2xl font-semibold text-blue-700">Update Branch</h1>
 
-                    <form onSubmit={handleSubmit} className=" w-3/6 p-10">
+                    <form onSubmit={handleSubmit} className="flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl w-96">
 
                         <div className={inputDiv}>
                             <label className={inputLabel} htmlFor="form1Example1">
@@ -128,7 +128,7 @@ const BranchUpdate = () => {
                         <div className="text-center">
                             <button
                                 type="submit"
-                                className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200">
+                                className="bg-blue-700 text-white w-full py-2 rounded-md bottom-2 ">
                                 Update Branch
                             </button>
                         </div>
