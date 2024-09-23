@@ -18,6 +18,7 @@ const RentUpdate = () => {
 
 
   const [rentalProduct, setRentalProduct] = useState();
+  const [disableProduct, setDisableProduct] = useState(false);
 
   useEffect(() => {
     const fetchRentalProduct = async () => {
@@ -25,8 +26,11 @@ const RentUpdate = () => {
         const response = await axios.get(`/rental/${id}`);
         if (response.data.success) {
           setRentalProduct(response.data.rentalProduct);
+          if (response.data.rentalProduct.totalQuantity < 1) {
+            setDisableProduct(true);
+          }
           console.log("getting rentalProduct");
-          
+
           console.log(rentalProduct);
         }
       } catch (error) {
@@ -47,10 +51,10 @@ const RentUpdate = () => {
   }
 
   //Dynamic inputs handling
-  const [returnedInfo, setReturnedInfo] = useState([{ product: "", returnedQuantity: 0, inHandQuantity : 0 }])
+  const [returnedInfo, setReturnedInfo] = useState([{ product: "", returnedQuantity: 0, inHandQuantity: 0 }])
 
   const addNewRow = () => {
-    let newReturnedInfo = [...returnedInfo, { product: "", returnedQuantity: 0, inHandQuantity : 0 }];
+    let newReturnedInfo = [...returnedInfo, { product: "", returnedQuantity: 0, inHandQuantity: 0 }];
     setReturnedInfo(newReturnedInfo);
   }
 
@@ -90,7 +94,7 @@ const RentUpdate = () => {
     <>
       <div>
         <h1 className="text-2xl font-bold text-center mt-6 bg-blue-300 rounded-lg mx-4">
-          Update Rented Product
+          Update Rent
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-5 mx-10 mt-6">
@@ -167,7 +171,8 @@ const RentUpdate = () => {
                     <td className="">
                       <input type="text" list="suggestion" name="product" value={info?.product}
                         onChange={(e) => returnedInfoChange(index, "product", e.target.value)}
-                        className="input input-bordered border-blue-600 mx-2" placeholder="product name" />
+                        className="input input-bordered border-blue-600 mx-2" placeholder="product name"
+                        disabled={disableProduct} />
 
                       <datalist id="suggestion">
                         {rentalProduct?.products?.map((obj) => {
@@ -178,9 +183,10 @@ const RentUpdate = () => {
                     <td className="">
                       <input type="number" name="returnedQuantity" value={info?.returnedQuantity}
                         onChange={(e) => returnedInfoChange(index, "returnedQuantity", e.target.value)}
-                        placeholder="Quantity" className="input input-bordered border-blue-600 mx-2" />
+                        placeholder="Quantity" className="input input-bordered border-blue-600 mx-2"
+                        disabled={disableProduct} />
                     </td>
-                    <td><div onClick={addNewRow} className="btn btn-primary text-2xl text-white">+</div></td>
+                    <td><div onClick={addNewRow} className="btn btn-primary text-2xl text-white" disabled={disableProduct}>+</div></td>
 
                   </tr >
                 </>
@@ -193,6 +199,31 @@ const RentUpdate = () => {
             <button type="submit" className="btn btn-success text-white font-bold">Update</button>
           </div>
         </form>
+
+
+        <div className="mx-20">
+          <table className="table mt-4 bg-slate-300">
+            <tr>
+              <th>Name</th>
+              <th>Rented Quantity</th>
+              <th className="text-green-800 font-bold">Onhand Quantity</th>
+            </tr>
+
+            {rentalProduct?.products?.map((p) => {
+              return (
+                <>
+                  <tr>
+                    <td>{p?.product?.name}</td>
+                    <td>{p?.quantity}</td>
+                    <td className="text-green-800 font-bold">{p?.inHandQuantity}</td>
+                  </tr>
+                </>
+              )
+            })}
+
+          </table>
+        </div>
+
 
       </div>
     </>

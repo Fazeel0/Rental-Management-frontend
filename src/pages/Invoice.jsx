@@ -33,7 +33,7 @@ const Invoice = () => {
     return (
         <>
             <div className="flex justify-center items-center my-4">
-                <button onClick={() => window.print()} className="btn btn-outline print:hidden">Download Invoice</button>
+                <button onClick={() => window.print()} className="btn btn-outline print:hidden">Download/Print Invoice</button>
             </div>
             <div className="mx-10 my-5 border-2 border-black px-10 py-8 space-y-2">
                 <div><span className="font-bold">Customer:</span> {rental?.customer?.name}</div>
@@ -51,6 +51,7 @@ const Invoice = () => {
                     <tr className="">
                         <th>Name</th>
                         <th>Quantity</th>
+                        <th>Price per product</th>
                         <th>Price</th>
                     </tr>
                     {rental?.products?.map((p) => {
@@ -59,6 +60,7 @@ const Invoice = () => {
                                 <tr>
                                     <td>{p?.product?.name}</td>
                                     <td>{p?.quantity}</td>
+                                    <td>{p?.pricePerProduct}</td>
                                     <td>{p?.price}</td>
                                 </tr>
                             </>

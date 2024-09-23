@@ -147,6 +147,7 @@ const RentalData = () => {
                   <td className="text-xl text-black font-bold"></td>
                   <td className="text-xl text-black font-bold">Name</td>
                   <td className="text-xl text-black font-bold">Quantity</td>
+                  <td className="text-xl text-black font-bold">Price per product</td>
                   <td className="text-xl text-black font-bold">Price</td>
                 </tr>
               </thead>
@@ -157,6 +158,7 @@ const RentalData = () => {
                     <td className="text-xl text-black font-bold">{index + 1}</td>
                     <td className="text-xl text-blue-700 font-bold">{product?.product?.name}</td>
                     <td className="text-xl text-blue-700 font-bold">{product?.quantity}</td>
+                    <td className="text-xl text-blue-700 font-bold">{product?.pricePerProduct}</td>
                     <td className="text-xl text-blue-700 font-bold">{product?.price}</td>
                   </tr>
                 </tbody>;
