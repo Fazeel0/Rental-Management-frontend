@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
+
 const Login = () => {
 
     const inputDiv = "mb-4 flex flex-col"
@@ -110,6 +111,7 @@ const Login = () => {
                     </form>
                 </div>
             </div>
+
         </>
     )
 }

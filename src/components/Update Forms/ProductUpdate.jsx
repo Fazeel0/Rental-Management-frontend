@@ -107,7 +107,7 @@ const ProductUpdate = () => {
             Update Product
           </h1>
 
-          <form onSubmit={handleSubmit} className="w-[70vw] sm:w-[70%] p-10">
+          <form onSubmit={handleSubmit} className="w-[60vw] sm:w-[90%] 2xl:w-[65%] flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl">
             <div className={inputDiv}>
               <label className={inputLabel} htmlFor="form1Example1">
                 Product Name
@@ -191,7 +191,7 @@ const ProductUpdate = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-blue-400 text-white hover:text-blue-400 w-full py-2 rounded-md bottom-2 hover:bg-slate-200"
+                className="bg-blue-700 text-white w-full py-2 rounded-md bottom-2 "
               >
                 Update Product
               </button>
