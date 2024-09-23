@@ -110,7 +110,7 @@ const UpdateUser = () => {
 
     return (
         <>
-            <div className='w-full h-[80vh] flex flex-col space-y-7 justify-center items-center'>
+            <div className='w-full mt-4 flex flex-col space-y-7 justify-center items-center'>
                 <h1 className='text-2xl font-semibold text-blue-700'>UPDATE USER</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col space-y-5 border-2 border-blue-600 p-9 rounded-3xl w-96'>
 
