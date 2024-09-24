@@ -141,7 +141,9 @@ const RentUpdate = () => {
               />
             </div>
 
-            {/* <div>
+            {
+              rentalProduct?.totalQuantity === 0 ? <>
+              <div>
               <label htmlFor="balanceAmount" className="font-bold">
                 Balance Amount:
               </label>
@@ -153,7 +155,13 @@ const RentUpdate = () => {
                 className="input input-bordered input-info w-full bg-gray-200"
                 readOnly
               />
-            </div> */}
+            </div>
+              </>
+              : <></>
+
+            }
+
+            
           </div>
 
           {/* Table....................... */}
@@ -164,7 +172,7 @@ const RentUpdate = () => {
             </tr>
 
 
-            {returnedInfo.map((info, index) => {
+            {returnedInfo?.map((info, index) => {
               return (
                 <>
                   <tr>
