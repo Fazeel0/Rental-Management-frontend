@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
@@ -13,6 +13,8 @@ const AllProducts = () => {
   const [scraps, setScraps] = useState([]);
   const [totalScrap, settotalScrap] = useState();
   const navigate = useNavigate();
+
+  const hasMounted = useRef(false);
 
   const { user } = useSelector(state => state.user);
 
@@ -67,8 +69,6 @@ const AllProducts = () => {
             }
           })
         )
-
-
       }
 
       setLoading(false);
@@ -94,13 +94,58 @@ const AllProducts = () => {
 
   }
 
-  if (loading === true) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
+  // Search Product by selecting Branch
+  const [allBranches, setAllBranches] = useState();
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("branch/all");
+        if (response.data.success) {
+          setAllBranches(response.data.branches);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [])
+
+  const [selectedBranch, setSelectedBranch] = useState();
+  const changeBranch = async (e) => {
+    if (e.target.value === "all") {
+      toast.success("Selected All branches");
+      await getAllProducts();
+      return;
+    }
+    setSelectedBranch(e.target.value);
   }
+
+  useEffect(() => {
+    //it wont call api on first render
+    if (hasMounted.current === true) {
+      (async () => {
+        try {
+          setLoading(true);
+          const response = await axios.post("/product/getProductsByBranch", { branch: selectedBranch });
+          setLoading(false);
+          
+          if (response.data.success) {
+            setAllProducts(response.data.products);
+          }
+
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      })();
+    }
+    else {
+      hasMounted.current = true;
+    }
+
+  }, [selectedBranch])
+
+
 
   const handleDelete = async (id) => {
     try {
@@ -142,6 +187,15 @@ const AllProducts = () => {
     document.getElementById("confirmDialog").classList.add("hidden");
   }
 
+
+  if (loading === true) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
+
   return (
     <>
       {!products ? (
@@ -150,14 +204,36 @@ const AllProducts = () => {
         </h1>
       ) : (
         <div className="overflow-x-auto mt-5">
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-3">
             <input
               type="search"
               placeholder="Search"
               onChange={handleChange}
               className="w-[20vw] h-12 p-4 rounded-lg border-2 border-blue-600 focus:border-none"
             />
+            {
+              user.roles === "Admin" ?
+                <>
+                  <div>
+                    <select onChange={changeBranch} name="branch" className="select select-bordered w-full">
+                      <option disabled selected>Select Branch</option>
+                      <option value="all">All</option>
+                      {allBranches?.map((b) => {
+                        return (
+                          <>
+                            <option value={b?._id}>{b?.name}</option>
+                          </>
+                        )
+                      })}
+
+                    </select>
+                  </div>
+                </>
+                : null
+            }
+
           </div>
+
           <table className="table">
             {/* head */}
             <thead>
