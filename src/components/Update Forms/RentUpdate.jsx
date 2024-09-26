@@ -58,6 +58,11 @@ const RentUpdate = () => {
     setReturnedInfo(newReturnedInfo);
   }
 
+  const removeRow = () => {
+    let temp = returnedInfo.slice(0, returnedInfo.length - 1)
+    setReturnedInfo(temp);
+  }
+
   const returnedInfoChange = (index, field, value) => {
 
     let updatedReturnedInfo = [...returnedInfo]
@@ -143,25 +148,25 @@ const RentUpdate = () => {
 
             {
               rentalProduct?.totalQuantity === 0 ? <>
-              <div>
-              <label htmlFor="balanceAmount" className="font-bold">
-                Balance Amount:
-              </label>
-              <input
-                id="balanceAmount"
-                type="text"
-                name="balanceAmount"
-                value={rentalProduct?.balanceAmount}
-                className="input input-bordered input-info w-full bg-gray-200"
-                readOnly
-              />
-            </div>
+                <div>
+                  <label htmlFor="balanceAmount" className="font-bold">
+                    Balance Amount:
+                  </label>
+                  <input
+                    id="balanceAmount"
+                    type="text"
+                    name="balanceAmount"
+                    value={rentalProduct?.balanceAmount}
+                    className="input input-bordered input-info w-full bg-gray-200"
+                    readOnly
+                  />
+                </div>
               </>
-              : <></>
+                : <></>
 
             }
 
-            
+
           </div>
 
           {/* Table....................... */}
@@ -194,7 +199,22 @@ const RentUpdate = () => {
                         placeholder="Quantity" className="input input-bordered border-blue-600 mx-2"
                         disabled={disableProduct} />
                     </td>
-                    <td><div onClick={addNewRow} className="btn btn-primary text-2xl text-white" disabled={disableProduct}>+</div></td>
+                    <td>
+                      {index === returnedInfo.length - 1 &&
+                        <div onClick={addNewRow} className="btn btn-primary text-2xl text-white" disabled={disableProduct}>
+                          +
+                        </div>
+                      }
+
+                    </td>
+                    <td>
+                      {index === returnedInfo.length - 1 &&
+                        <div onClick={removeRow} className="btn btn-primary text-2xl text-white" disabled={disableProduct}>
+                          -
+                        </div>
+                      }
+
+                    </td>
 
                   </tr >
                 </>
