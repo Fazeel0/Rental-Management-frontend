@@ -36,12 +36,12 @@ const CreateRental = () => {
 
 
     const [products, setproducts] = useState();
-     const [branches, setbranches] = useState()
+    const [branches, setbranches] = useState()
     const [disableProduct, setDisableProduct] = useState(true);
     const [disableQty, setDisableQty] = useState(true);
     const hasMounted = useRef(false);
     console.log(products);
-    
+
 
 
     useEffect(() => {
@@ -76,7 +76,7 @@ const CreateRental = () => {
     const [isBranchSelected, setIsBranchSelected] = useState(false);
     const changeBranch = async (e) => {
         let value = e.target.value;
-        
+
         setselectedBranch(value);
         setIsBranchSelected(true);
         // setDisableProduct(false);
@@ -91,7 +91,7 @@ const CreateRental = () => {
 
                     if (response.data.success) {
                         setproducts(response.data.products);
-                        if(response.data.products.length>0){
+                        if (response.data.products.length > 0) {
                             setDisableProduct(false);
                         }
                     }
@@ -111,9 +111,9 @@ const CreateRental = () => {
 
 
 
-    
 
-   
+
+
 
 
 
@@ -123,12 +123,12 @@ const CreateRental = () => {
         let data = Object.fromEntries(formData.entries());
 
 
-    
-        
+
+
         data = {
             ...data,
-            customer : id,
-            branch : selectedBranch,
+            customer: id,
+            branch: selectedBranch,
         }
 
         let totalQuantity = 0;
@@ -138,7 +138,7 @@ const CreateRental = () => {
 
         data = { ...data, products: rows, totalQuantity };
         console.log(data);
-        
+
 
 
         try {
@@ -156,26 +156,30 @@ const CreateRental = () => {
 
 
     //Table 
-    const [rows, setRows] = useState([{ name: '', quantity: '', availableQty : '0' }]);
+    const [rows, setRows] = useState([{ name: '', quantity: '', availableQty: '0' }]);
 
     const handleAddRow = () => {
-        setRows([...rows, { name: '', quantity: '', availableQty : '0' }]);
-        
-        
+        setRows([...rows, { name: '', quantity: '', availableQty: '0' }]);
     };
+
+    const handleRemoveRow = () => {
+
+        let temp = rows.slice(0, rows.length - 1);
+        setRows(temp);
+    }
 
     const handleInputChange = (index, field, value) => {
         const updatedRows = [...rows];
-        if(field === "name"){
-            products.forEach((product)=>{
-                if(value === product.name){
+        if (field === "name") {
+            products.forEach((product) => {
+                if (value === product.name) {
                     console.log(product.availableQuantity);
                     updatedRows[index]["availableQty"] = product.availableQuantity
                 }
             })
         }
         updatedRows[index][field] = value;
-        setRows(updatedRows); 
+        setRows(updatedRows);
     };
 
     return (
@@ -221,7 +225,7 @@ const CreateRental = () => {
 
                         <div>
                             <label htmlFor="branch" className="font-bold">Branch:</label>
-                            <select onChange={changeBranch} name="branch" id="branch" className="select select-info w-full" required disabled={isBranchSelected} 
+                            <select onChange={changeBranch} name="branch" id="branch" className="select select-info w-full" required disabled={isBranchSelected}
                             >
                                 <option disabled selected>Select Branch</option>
                                 {branches?.map((branch) => {
@@ -244,6 +248,7 @@ const CreateRental = () => {
                                 <th className="px-4 py-2 border">Product</th>
                                 <th className="px-4 py-2 border">Quantity</th>
                                 <th className="px-4 py-2 border"></th>
+                                <th className="px-4 py-2 border"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -257,10 +262,10 @@ const CreateRental = () => {
                                             placeholder="Enter product"
                                             value={row?.name}
                                             disabled={disableProduct}
-                                            onChange={(e) =>{
+                                            onChange={(e) => {
                                                 handleInputChange(index, 'name', e.target.value);
                                                 // changeProduct(row?.id)
-                                            } }
+                                            }}
                                         />
 
                                         <datalist id="suggestion" >
@@ -279,14 +284,14 @@ const CreateRental = () => {
                                 value={productName}
                                 className="input input-bordered input-info w-full" readOnly />
                                     </td> */}
-                                    
+
                                     <td className="px-4 py-2 border">
                                         <input
                                             type="number"
                                             className="w-full px-2 py-1 border rounded placeholder:text-green-600"
                                             placeholder={`${row.availableQty} InStock`}
                                             value={row?.quantity}
-                                            disabled = {disableProduct}
+                                            disabled={disableProduct}
                                             max={row.availableQty}
                                             onChange={(e) => handleInputChange(index, 'quantity', e.target.value)}
                                         />
@@ -295,8 +300,17 @@ const CreateRental = () => {
                                         {index === rows.length - 1 && (
                                             <button
                                                 className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full"
-                                                onClick={handleAddRow}>
+                                                onClick={handleAddRow} disabled={disableProduct}>
                                                 +
+                                            </button>
+                                        )}
+                                    </td>
+                                    <td className="px-4 py-2 border text-center">
+                                        {index === rows.length - 1 && (
+                                            <button
+                                                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full"
+                                                onClick={handleRemoveRow} disabled={disableProduct}>
+                                                -
                                             </button>
                                         )}
                                     </td>
