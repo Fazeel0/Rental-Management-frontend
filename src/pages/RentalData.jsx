@@ -104,6 +104,13 @@ const RentalData = () => {
                   {rental?.paymentStatus}
                 </span>
               </h1>
+              <h1 className="text-xl">
+                <span className="font-bold">SalesPerson:</span>{" "}
+                <span className="text-blue-700 font-bold">
+                  {rental?.salesPerson?.name}
+                </span>
+              </h1>
+
             </div>
 
 
@@ -206,7 +213,7 @@ const RentalData = () => {
 
             </div>
           </div>
-          
+
         </div>
       </div>
     </>

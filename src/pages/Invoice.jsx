@@ -44,7 +44,7 @@ const Invoice = () => {
                 <div><span className="font-bold">Start Date: </span>{new Date(rental?.startDate).toLocaleDateString("en-GB")}</div>
                 <div><span className="font-bold">End Date: </span>{new Date(rental?.endDate).toLocaleDateString("en-GB")}</div>
 
-                <div><span className="font-bold">Salesperson: </span>{user?.name}</div>
+                <div><span className="font-bold">Salesperson: </span>{rental?.salesPerson?.name}</div>
                 <hr />
                 <div className="font-bold mt-5">Order Info:</div>
                 <table className="table">
